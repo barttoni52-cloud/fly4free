@@ -75,10 +75,15 @@ main{max-width:960px;margin:0 auto;padding:40px 24px 60px}
 .loading-dots span:nth-child(3){animation-delay:.4s}
 @keyframes dot{0%,80%,100%{opacity:0}40%{opacity:1}}
 .err-box{display:none;background:#FFF5F5;border-left:3px solid #E53E3E;color:#C53030;padding:14px 18px;border-radius:0 10px 10px 0;font-size:.88rem;margin-bottom:24px;line-height:1.6}
-.stats-row{display:none;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.stats-row{display:none;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .stat-card{background:var(--white);border:1px solid #EDF2F7;border-radius:12px;padding:18px 20px;text-align:center;box-shadow:var(--shadow)}
-.stat-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;color:var(--forest);line-height:1}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--forest);line-height:1}
 .stat-lbl{font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.8px}
+
+/* Prix indicatif banner */
+.price-notice{display:none;background:#FFF8E8;border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:10px 16px;font-size:.78rem;color:var(--sun2);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.price-notice svg{flex-shrink:0}
+
 .sort-row{display:none;align-items:center;gap:8px;margin-bottom:18px}
 .sort-row span{font-size:.78rem;color:var(--muted)}
 .chip{background:transparent;border:1px solid #CBD5E0;color:var(--text2);padding:5px 14px;border-radius:100px;font-size:.78rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
@@ -86,60 +91,70 @@ main{max-width:960px;margin:0 auto;padding:40px 24px 60px}
 .section-label{font-size:.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:24px 0 10px;display:flex;align-items:center;gap:8px;font-weight:600}
 .section-label::after{content:'';flex:1;height:1px;background:#EDF2F7}
 .flights-list{display:flex;flex-direction:column;gap:10px}
-.fcard{background:var(--white);border:1.5px solid #EDF2F7;border-left:4px solid #CBD5E0;border-radius:var(--radius);padding:20px 24px;display:grid;grid-template-columns:72px 1fr auto;gap:20px;align-items:center;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+
+/* FLIGHT CARD */
+.fcard{background:var(--white);border:1.5px solid #EDF2F7;border-left:4px solid #CBD5E0;border-radius:var(--radius);padding:18px 20px;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
 .fcard:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
 .fcard.gabon{border-left-color:var(--sun);background:linear-gradient(135deg,#FFFBF0,#fff)}
 .fcard.african{border-left-color:var(--green)}
 .fcard.best{border-left-color:var(--blue)}
-.al-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
-.al-logo{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;background:var(--sand2);color:var(--forest)}
+.fcard-top{display:grid;grid-template-columns:60px 1fr auto;gap:16px;align-items:center}
+.al-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.al-logo{width:44px;height:44px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;background:var(--sand2);color:var(--forest)}
 .al-logo.gab{background:rgba(245,166,35,.18);color:var(--sun2)}
 .al-logo.afr{background:var(--green-light);color:var(--green)}
-.al-name{font-size:.65rem;color:var(--muted);text-align:center;max-width:68px;line-height:1.3}
-.best-tag{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:100px;margin-bottom:8px}
-.gabon-tag{background:var(--sun);color:var(--white)}
-.route-row{display:flex;align-items:center;gap:10px}
-.iata{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;line-height:1;color:var(--text)}
-.iata-sub{font-size:.65rem;color:var(--muted);margin-top:2px}
+.al-name{font-size:.62rem;color:var(--muted);text-align:center;max-width:56px;line-height:1.3}
+.fcard-badges{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px}
+.badge.airline-gab{background:var(--sun);color:var(--white)}
+.badge.best-price{background:var(--blue);color:#fff}
+.badge.cheapest{background:var(--green-light);color:var(--green)}
+.badge.fastest{background:#EEF2FF;color:#3730A3}
+.route-row{display:flex;align-items:center;gap:8px}
+.iata{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-.5px;line-height:1;color:var(--text)}
+.iata-sub{font-size:.63rem;color:var(--muted);margin-top:2px}
 .rmid{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.dur-txt{font-size:.7rem;color:var(--muted)}
+.dur-txt{font-size:.68rem;color:var(--muted)}
 .rline{width:100%;display:flex;align-items:center;gap:3px}
 .rl{flex:1;height:1px;background:#CBD5E0}
 .pill{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:100px}
 .pill.direct{background:var(--green-light);color:var(--green)}
 .pill.stops{background:#FFF3E0;color:#E65100}
-.fcard-price{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:140px}
-.pp{font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.price-big{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--forest);line-height:1;letter-spacing:-0.5px}
-.price-xaf{font-size:.72rem;color:var(--muted);margin-top:1px}
-.speed-badge{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:6px}
-.speed-badge.fastest{background:#E8F0FF;color:#2B4ECC}
-.speed-badge.cheapest{background:var(--green-light);color:var(--green)}
-.book-btns{display:flex;flex-direction:column;gap:6px}
-.book-main{display:block;background:var(--sun);color:var(--white);text-decoration:none;padding:9px 16px;border-radius:8px;font-size:.8rem;font-weight:700;font-family:'Syne',sans-serif;transition:all .2s;text-align:center;border:none;cursor:pointer;width:100%;box-shadow:0 3px 10px rgba(245,166,35,.35)}
-.book-main:hover{background:var(--sun2)}
-.book-more{display:block;background:transparent;color:var(--sun2);border:1.5px solid var(--sun);text-decoration:none;padding:7px 16px;border-radius:8px;font-size:.74rem;font-weight:600;font-family:'Inter',sans-serif;transition:all .2s;text-align:center;cursor:pointer;width:100%}
-.book-more:hover{background:rgba(245,166,35,.06)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
-.modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:20px;padding:28px;max-width:460px;width:90%;box-shadow:0 24px 80px rgba(0,0,0,.2)}
-.modal-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--forest);margin-bottom:4px}
-.modal-sub{font-size:.82rem;color:var(--muted);margin-bottom:18px;line-height:1.5}
-.modal-links{display:flex;flex-direction:column;gap:8px}
-.modal-link{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid #EDF2F7;border-radius:10px;text-decoration:none;color:var(--text);transition:all .2s}
-.modal-link:hover{border-color:var(--sun);background:rgba(245,166,35,.04);transform:translateX(4px)}
-.modal-link-name{font-weight:600;font-size:.88rem;color:var(--forest)}
-.modal-link-sub{font-size:.72rem;color:var(--muted)}
-.modal-close{margin-top:14px;width:100%;background:var(--forest);color:var(--white);border:none;padding:12px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s}
-.modal-close:hover{background:var(--green)}
+
+/* PRIX + SITES */
+.fcard-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:150px}
+.price-block{text-align:right}
+.price-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.price-eur{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--forest);line-height:1;letter-spacing:-.5px}
+.price-xaf{font-size:.7rem;color:var(--muted);margin-top:1px}
+.price-usd{font-size:.65rem;color:#CBD5E0;margin-top:1px}
+.price-notice-inline{font-size:.62rem;color:var(--sun2);margin-top:3px;font-style:italic}
+
+/* SITES BLOCK */
+.sites-block{width:100%;margin-top:12px;border-top:1px solid #EDF2F7;padding-top:12px}
+.sites-title{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.sites-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.site-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 6px;border:1.5px solid #EDF2F7;border-radius:8px;text-decoration:none;color:var(--text);transition:all .2s;position:relative}
+.site-btn:hover{border-color:var(--sun);background:rgba(245,166,35,.04);transform:translateY(-1px)}
+.site-btn.best-site{border-color:var(--green);background:var(--green-light)}
+.site-icon{font-size:1.1rem}
+.site-name{font-size:.65rem;font-weight:600;color:var(--text2)}
+.site-tag{font-size:.55rem;color:var(--muted)}
+.best-site-badge{position:absolute;top:-6px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.52rem;font-weight:700;padding:1px 6px;border-radius:100px;white-space:nowrap}
+
+/* Empty */
 .empty{display:none;text-align:center;padding:40px 20px;color:var(--muted)}
 .empty-icon{font-size:2.8rem;margin-bottom:12px;opacity:.6}
+
+/* Redirect box */
 .redirect-box{display:none;background:var(--white);border:1.5px solid #EDF2F7;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-top:14px}
 .redirect-box h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--forest);margin-bottom:4px}
 .redirect-box p{font-size:.78rem;color:var(--muted);margin-bottom:14px}
 .redirect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}
 .redir-btn{display:flex;align-items:center;gap:8px;background:var(--sand);border:1px solid #E2E8F0;border-radius:9px;padding:10px 12px;text-decoration:none;color:var(--text);font-size:.8rem;font-weight:500;transition:all .2s}
 .redir-btn:hover{border-color:var(--sun);background:rgba(245,166,35,.06);transform:translateY(-1px)}
+
+/* Bottom section */
 .bottom-section{background:var(--white);border-top:1px solid #EDF2F7;padding:56px 24px}
 .bottom-inner{max-width:960px;margin:0 auto}
 .sec-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--forest);margin-bottom:6px}
@@ -178,8 +193,8 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
   nav{padding:14px 20px}.nav-tag{display:none}
   .fields-row{grid-template-columns:1fr 1fr;gap:8px}
   .fields-row .go-btn{grid-column:1/-1;justify-content:center}
-  .fcard{grid-template-columns:1fr;gap:10px}
-  .fcard-price{flex-direction:row;align-items:center;justify-content:space-between}
+  .fcard-top{grid-template-columns:44px 1fr auto}
+  .sites-grid{grid-template-columns:1fr 1fr}
   .stats-row,.booking-grid,.airlines-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 }
 </style>
@@ -274,6 +289,12 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
     <div class="stat-card"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Prix moyen</div></div>
     <div class="stat-card"><div class="stat-val" id="s-cnt">—</div><div class="stat-lbl">Vols trouvés</div></div>
   </div>
+
+  <!-- Avertissement prix -->
+  <div id="price-notice" style="display:none;background:#FFF8E8;border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:10px 16px;font-size:.78rem;color:#8A6800;margin-bottom:16px;display:none;align-items:center;gap:8px">
+    ⚠️ <span>Les prix affichés sont <strong>indicatifs</strong> (source Ignav). Cliquez sur un site pour voir le <strong>prix réel et réserver</strong>. Les prix varient selon les sites et la disponibilité.</span>
+  </div>
+
   <div class="sort-row" id="sort-row">
     <span>Trier par :</span>
     <button class="chip on" onclick="setSort('price',this)">Prix</button>
@@ -292,15 +313,6 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
   </div>
 </main>
 
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
-  <div class="modal">
-    <div class="modal-title">Choisir où réserver</div>
-    <div class="modal-sub" id="modal-sub"></div>
-    <div class="modal-links" id="modal-links"></div>
-    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">Fermer</button>
-  </div>
-</div>
-
 <section class="bottom-section">
   <div class="bottom-inner">
     <div class="sec-title">Où réserver vos billets</div>
@@ -311,9 +323,12 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
       <div class="bc"><div class="bc-head"><div class="bc-icon">🟠</div><div><div class="bc-name">Kayak</div><div class="bc-url">kayak.fr</div></div></div><div class="bc-desc">Agrège des centaines de sites. Outil Explore pour destinations moins chères.</div><a href="https://www.kayak.fr" target="_blank" class="bc-link">Visiter →</a></div>
       <div class="bc"><div class="bc-head"><div class="bc-icon">🟣</div><div><div class="bc-name">Kiwi.com</div><div class="bc-url">kiwi.com</div></div></div><div class="bc-desc">Combinaisons créatives. Trouve souvent les itinéraires les moins chers.</div><a href="https://www.kiwi.com" target="_blank" class="bc-link">Visiter →</a></div>
       <div class="bc"><div class="bc-head"><div class="bc-icon">🇬🇦</div><div><div class="bc-name">FlyGabon</div><div class="bc-url">flygabon.com</div></div></div><div class="bc-desc">Compagnie nationale gabonaise. Vols depuis Libreville vers l'Afrique centrale.</div><a href="https://www.flygabon.com" target="_blank" class="bc-link">Visiter →</a></div>
-      <div class="bc"><div class="bc-head"><div class="bc-icon">🟡</div><div><div class="bc-name">Booking.com</div><div class="bc-url">booking.com/flights</div></div></div><div class="bc-desc">Vols + hôtels combinés. Souvent des offres packagées intéressantes.</div><a href="https://www.booking.com/flights" target="_blank" class="bc-link">Visiter →</a></div>
+      <div class="bc"><div class="bc-head"><div class="bc-icon">🟡</div><div><div class="bc-name">Booking.com</div><div class="bc-url">booking.com/flights</div></div></div><div class="bc-desc">Vols + hôtels combinés. Offres packagées souvent intéressantes pour les voyages complets.</div><a href="https://www.booking.com/flights" target="_blank" class="bc-link">Visiter →</a></div>
+      <div class="bc"><div class="bc-head"><div class="bc-icon">🔴</div><div><div class="bc-name">Expedia</div><div class="bc-url">expedia.fr</div></div></div><div class="bc-desc">Grande plateforme US avec vols, hôtels et voitures. Souvent des offres packagées compétitives.</div><a href="https://www.expedia.fr" target="_blank" class="bc-link">Visiter →</a></div>
+      <div class="bc"><div class="bc-head"><div class="bc-icon">🟤</div><div><div class="bc-name">Momondo</div><div class="bc-url">momondo.fr</div></div></div><div class="bc-desc">Moteur de recherche de vols très populaire. Agrège de nombreuses sources pour trouver les meilleurs tarifs.</div><a href="https://www.momondo.fr" target="_blank" class="bc-link">Visiter →</a></div>
+      <div class="bc"><div class="bc-head"><div class="bc-icon">📊</div><div><div class="bc-name">ITA Matrix</div><div class="bc-url">matrix.itasoftware.com</div></div></div><div class="bc-desc">Outil professionnel de Google. Affiche les prix bruts sans markup. Idéal pour trouver le vrai prix minimum — puis réserver sur une autre plateforme.</div><a href="https://matrix.itasoftware.com" target="_blank" class="bc-link">Visiter →</a></div>
     </div>
-    <div class="divider"><div class="divider-line"></div><span style="font-size:.8rem;color:var(--muted);white-space:nowrap">Les compagnies</span><div class="divider-line"></div></div>
+    <div class="divider"><div class="divider-line"></div><span style="font-size:.8rem;color:var(--muted);white-space:nowrap;padding:0 12px">Les compagnies</span><div class="divider-line"></div></div>
     <div class="airlines-grid">
       <div class="ac feat"><div class="ac-badge2 gab">FG</div><div class="ac-info"><h3>FlyGabon</h3><div class="ac-hub">🇬🇦 Hub : Libreville (LBV)</div><div class="ac-desc">Compagnie nationale gabonaise. Vols domestiques et régionaux en Afrique centrale.</div><span class="ac-flag gab">🇬🇦 Gabonaise</span></div></div>
       <div class="ac feat"><div class="ac-badge2 afr">ET</div><div class="ac-info"><h3>Ethiopian Airlines</h3><div class="ac-hub">🇪🇹 Hub : Addis-Abeba (ADD)</div><div class="ac-desc">La plus grande compagnie africaine. +125 destinations mondiales.</div><span class="ac-flag afr">🌍 Africaine</span></div></div>
@@ -332,16 +347,31 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
 </svg>
 <footer>
   <strong>FLY4FREE</strong> — Billets d'avion au meilleur prix mondial<br>
-  Données fournies par Ignav · Nous redirigeons vers les sites officiels<br>
+  Prix indicatifs fournis par Ignav · Réservation via les sites partenaires · Nous ne vendons pas de billets<br>
   <small style="opacity:.4">© 2026 FLY4FREE</small>
 </footer>
 
 <script>
-const IGNAV_KEY='ignav_CWcIEsZo8xMg2PrfVFP1puWH-Phc2z5X';
+const WORKER='https://withered-king-df88.barttoni52.workers.dev';
 let flights=[],sortKey='price',isReturn=false;
-let acTimers={ori:null,dst:null},acIdx={ori:-1,dst:-1};
+let acIdx={ori:-1,dst:-1};
 let msgTimer=null,msgIdx=0;
-const MSGS=['Recherche des meilleures offres…','On consulte les compagnies… ✈','On traverse l\'Ogooué à la nage… 🐊','Presque là, encore un instant…','Vérification des prix en cours !'];
+let eurRate=0.92,xafRate=606; // taux par défaut, mis à jour au chargement
+const MSGS=['Recherche des meilleures offres…','Consultation des compagnies… ✈','On traverse l\'Ogooué à la nage… 🐊','Presque là, encore un instant…','Vérification des prix en cours !'];
+
+// Récupérer taux de change en temps réel
+async function fetchRates(){
+  try{
+    const r=await fetch('https://open.er-api.com/v6/latest/USD');
+    const d=await r.json();
+    if(d?.rates?.EUR) eurRate=d.rates.EUR;
+    if(d?.rates?.XOF) xafRate=d.rates.XOF; // XOF = XAF (même taux)
+  }catch{}
+}
+fetchRates();
+
+function toEUR(usd){return Math.round(usd*eurRate);}
+function toXAF(usd){return Math.round(usd*xafRate);}
 
 const today=new Date().toISOString().split('T')[0];
 document.getElementById('dep').min=today;
@@ -429,15 +459,10 @@ function acKey(e,id){
 function hlAc(id,items){items.forEach((el,i)=>el.classList.toggle('focused',i===acIdx[id]));if(acIdx[id]>=0)items[acIdx[id]].scrollIntoView({block:'nearest'});}
 document.addEventListener('click',e=>{['ori','dst'].forEach(id=>{const w=document.getElementById(id+'-wrap');if(w&&!w.contains(e.target))document.getElementById(id+'-drop').classList.remove('open');});});
 
-const WORKER='https://withered-king-df88.barttoni52.workers.dev';
 async function ignavPost(path,body){
-  const r=await fetch(WORKER+path,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
+  const r=await fetch(WORKER+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   const data=await r.json();
-  if(!r.ok) throw new Error(data?.error?.message||data?.error?.code||'HTTP '+r.status);
+  if(!r.ok) throw new Error(data?.error?.message||'HTTP '+r.status);
   return data;
 }
 
@@ -445,6 +470,22 @@ const GABON_AL=['flygabon','fly gabon','air gabon'];
 const AFRICAN_AL=['ethiopian','kenya airways','air senegal','air côte','asky','rwandair','south african','egyptair','royal air maroc','air algérie','tunisair','camair','corsair'];
 function isGab(n){return n&&GABON_AL.some(g=>n.toLowerCase().includes(g))}
 function isAfr(n){return n&&AFRICAN_AL.some(a=>n.toLowerCase().includes(a))}
+
+function buildSites(ori,dst,dep,pax,ret){
+  const[y,m,d]=dep.split('-');
+  const depSky=`${y}${m}${d}`;
+  return[
+    {icon:'🔵',name:'Skyscanner',url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/?adults=${pax}`},
+    {icon:'🌐',name:'Google Flights',url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}+${dep}`},
+    {icon:'🟠',name:'Kayak',url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
+    {icon:'🟣',name:'Kiwi.com',url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${ret?'/'+ret:''}`},
+    {icon:'🔴',name:'Expedia',url:`https://www.expedia.fr/Flights-Search?trip=oneway&leg1=from:${ori},to:${dst},departure:${dep}&travelers=adults:${pax}`},
+    {icon:'🟤',name:'Momondo',url:`https://www.momondo.fr/flight-search/${ori}-${dst}/${dep}${ret?'/'+ret:''}?adults=${pax}`},
+    {icon:'📊',name:'ITA Matrix',url:`https://matrix.itasoftware.com/search#search/f=${ori}&t=${dst}&d=${dep}&r=${ret||''}&p=${pax}`},
+    {icon:'🇬🇦',name:'FlyGabon',url:'https://www.flygabon.com'},
+    {icon:'🟡',name:'Booking',url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
+  ];
+}
 
 async function doSearch(){
   const ori=document.getElementById('ori-sky').value;
@@ -462,6 +503,7 @@ async function doSearch(){
   document.getElementById('list').innerHTML='';
   document.getElementById('empty').style.display='none';
   document.getElementById('redirect-box').style.display='none';
+  document.getElementById('price-notice').style.display='none';
   flights=[];
 
   msgIdx=0;document.getElementById('lmsg').textContent=MSGS[0];
@@ -473,13 +515,12 @@ async function doSearch(){
     const body={origin:ori,destination:dst,departure_date:dep,adults:pax,cabin_class:'economy'};
     if(isReturn&&ret) body.return_date=ret;
     const data=await ignavPost(path,body);
-    handle(data,ori,dst,dep,pax,isReturn?ret:'');
+    handle(data,ori,dst,dep,pax,ret);
   }catch(e){
     setLoad(false);
-    // Message d'erreur exact pour debug
-    showErr('Erreur API : '+e.message+' — Les liens ci-dessous fonctionnent directement.');
+    showErr('Erreur : '+e.message);
     document.getElementById('empty').style.display='block';
-    showRedirects(ori,dst,dep,pax,isReturn?ret:'');
+    showRedirects(ori,dst,dep,pax,ret);
   }
 }
 
@@ -492,111 +533,62 @@ function handle(data,ori,dst,dep,pax,ret){
     const ob=it?.outbound||{};
     const segs=ob?.segments||[];
     const airline=ob?.carrier||segs[0]?.operating_carrier_name||'Compagnie aérienne';
-    return{price,currency:it?.price?.currency||'EUR',
-      ori:segs[0]?.departure_airport||ori,dst:segs[segs.length-1]?.arrival_airport||dst,
-      depTime:segs[0]?.departure_time_local||'',arrTime:segs[segs.length-1]?.arrival_time_local||'',
-      dur:ob?.duration_minutes||0,stops:Math.max(0,segs.length-1),airline,
-      isGabon:isGab(airline),isAfrican:isAfr(airline),ignav_id:it?.ignav_id||''};
+    return{
+      priceUSD:price,
+      ori:segs[0]?.departure_airport||ori,
+      dst:segs[segs.length-1]?.arrival_airport||dst,
+      depTime:segs[0]?.departure_time_local||'',
+      arrTime:segs[segs.length-1]?.arrival_time_local||'',
+      dur:ob?.duration_minutes||0,
+      stops:Math.max(0,segs.length-1),
+      airline,
+      isGabon:isGab(airline),isAfrican:isAfr(airline),
+      ignav_id:it?.ignav_id||''
+    };
   }).filter(Boolean);
+
   if(flights.length){
-    const prices=flights.map(f=>toEUR(f.price));
-    document.getElementById('s-min').textContent=Math.min(...prices)+' €';
-    document.getElementById('s-avg').textContent=Math.round(prices.reduce((a,b)=>a+b,0)/prices.length)+' €';
+    const eurPrices=flights.map(f=>toEUR(f.priceUSD));
+    document.getElementById('s-min').textContent=Math.min(...eurPrices)+' €';
+    document.getElementById('s-avg').textContent=Math.round(eurPrices.reduce((a,b)=>a+b,0)/eurPrices.length)+' €';
     document.getElementById('s-cnt').textContent=flights.length;
     document.getElementById('stats').style.display='grid';
     document.getElementById('sort-row').style.display='flex';
-    render();
+    document.getElementById('price-notice').style.display='flex';
+    render(ori,dst,dep,pax,ret);
   }else{
     document.getElementById('empty').style.display='block';
   }
   showRedirects(ori,dst,dep,pax,ret);
 }
 
-async function openBookingLinks(ignav_id,pax,airline,price,ori,dst,dep,ret){
-  const modal=document.getElementById('modal');
-  document.getElementById('modal-sub').textContent=airline+' — '+toEUR(price)+' € / '+toXAF(price)+' XAF';
-  const[y,m,d]=dep.split('-');
-  const depSky=`${y}${m}${d}`;
-  const links=[
-    {icon:'🌐',name:'Google Flights',sub:'Gratuit & fiable',
-      url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}`},
-    {icon:'🔵',name:'Skyscanner',sub:'Résultats directs',
-      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/?adults=${pax}`},
-    {icon:'🟠',name:'Kayak',sub:'Comparer',
-      url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}/${pax}adults`},
-    {icon:'🟣',name:'Kiwi.com',sub:'Combos créatifs',
-      url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}`},
-    {icon:'🇬🇦',name:'FlyGabon',sub:'Compagnie gabonaise',url:'https://www.flygabon.com'},
-    {icon:'🟡',name:'Booking.com',sub:'Vols + hôtels',
-      url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
-  ];
-  document.getElementById('modal-links').innerHTML=links.map(l=>`
-    <a href="${l.url}" target="_blank" rel="noopener" class="modal-link">
-      <span style="font-size:1.2rem">${l.icon}</span>
-      <div><div class="modal-link-name">${l.name}</div><div class="modal-link-sub">${l.sub}</div></div>
-    </a>`).join('');
-  modal.classList.add('open');
-}
-function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
-
-// 1 USD = 606 XAF (taux marché juin 2026)
-const USD_TO_XAF=606;
-function toXAF(usd){return Math.round(usd*USD_TO_XAF).toLocaleString('fr-FR');}
-function toEUR(usd){return Math.round(usd*0.923);}
-
-function gFlightsUrl(ori,dst,dep,pax,ret){
-  // Format Google Flights qui fonctionne
-  let url=`https://www.google.com/travel/flights?hl=fr&curr=EUR`;
-  url+=`&q=Vols+${ori}+${dst}`;
-  return url;
-}
-
-function buildRedirects(ori,dst,dep,pax,ret){
-  const[y,m,d]=dep.split('-');
-  const depSky=`${y}${m}${d}`;
-  const retSky=ret?ret.replace(/-/g,''):'';
-  return[
-    {name:'Google Flights',icon:'🌐',sub:'Gratuit & fiable',
-      url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}`},
-    {name:'Skyscanner',icon:'🔵',sub:'Meilleurs prix mondiaux',
-      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/${retSky?retSky+'/?adults='+pax:'?adults='+pax}`},
-    {name:'Kayak',icon:'🟠',sub:'Comparer facilement',
-      url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
-    {name:'Kiwi.com',icon:'🟣',sub:'Combos créatifs',
-      url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${ret?'/'+ret:''}`},
-    {name:'FlyGabon',icon:'🇬🇦',sub:'Compagnie gabonaise',url:'https://www.flygabon.com'},
-    {name:'Booking.com',icon:'🟡',sub:'Vols + hôtels',
-      url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
-  ];
-}
-function showRedirects(ori,dst,dep,pax,ret){
-  document.getElementById('redirect-grid').innerHTML=buildRedirects(ori,dst,dep,pax,ret).map(l=>`
-    <a href="${l.url}" target="_blank" rel="noopener" class="redir-btn">
-      <span>${l.icon}</span><div><div style="font-weight:600;font-size:.8rem">${l.name}</div><div style="font-size:.68rem;color:var(--muted)">${l.sub}</div></div>
-    </a>`).join('');
-  document.getElementById('redirect-box').style.display='block';
-}
-
 function fmt(dt){if(!dt)return'—';const d=new Date(dt);if(isNaN(d))return dt.slice(11,16)||'—';return d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
 function dur(m){if(!m)return'';return`${Math.floor(m/60)}h${m%60?m%60+'min':''}`}
 function setSort(k,btn){sortKey=k;document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));btn.classList.add('on');render();}
 
-function toXAF(eur){return Math.round(eur*655.957).toLocaleString('fr-FR');}
+function render(ori,dst,dep,pax,ret){
+  ori=ori||document.getElementById('ori-sky').value;
+  dst=dst||document.getElementById('dst-sky').value;
+  dep=dep||document.getElementById('dep').value;
+  pax=pax||parseInt(document.getElementById('pax').value);
+  ret=ret||document.getElementById('ret').value;
 
-function render(){
-  const pax=parseInt(document.getElementById('pax').value);
   const sorted=[...flights].sort((a,b)=>{
     const ta=a.isGabon?0:a.isAfrican?1:2,tb=b.isGabon?0:b.isAfrican?1:2;
     if(ta!==tb)return ta-tb;
-    if(sortKey==='price')return a.price-b.price;
+    if(sortKey==='price')return a.priceUSD-b.priceUSD;
     if(sortKey==='duration')return(a.dur||9999)-(b.dur||9999);
     return a.stops-b.stops;
   });
-  const minP=Math.min(...sorted.map(f=>f.price));
+
+  const minP=Math.min(...sorted.map(f=>f.priceUSD));
   const minDur=Math.min(...sorted.filter(f=>f.dur>0).map(f=>f.dur));
   let lastTier=-1;
+  const[y,m,d]=dep.split('-');
+  const depSky=`${y}${m}${d}`;
+
   document.getElementById('list').innerHTML=sorted.map((f,i)=>{
-    const isCheapest=f.price===minP&&i===sorted.findIndex(x=>x.price===minP);
+    const isCheapest=f.priceUSD===minP&&i===sorted.findIndex(x=>x.priceUSD===minP);
     const isFastest=f.dur>0&&f.dur===minDur&&i===sorted.findIndex(x=>x.dur===minDur);
     const tier=f.isGabon?0:f.isAfrican?1:2;
     let lbl='';
@@ -608,43 +600,67 @@ function render(){
     const init=f.airline.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const lc=f.isGabon?'gab':f.isAfrican?'afr':'';
     const cc=f.isGabon?'gabon':f.isAfrican?'african':isCheapest?'best':'';
-    const topBadge=f.isGabon?'<div class="best-tag gabon-tag">🇬🇦 Compagnie gabonaise</div>':isCheapest?'<div class="best-tag">✦ Meilleur prix</div>':'';
-    const speedBadges=[
-      isCheapest?'<span class="speed-badge cheapest">💰 Moins cher</span>':'',
-      isFastest?'<span class="speed-badge fastest">⚡ Plus rapide</span>':''
+    const eurP=toEUR(f.priceUSD);
+    const xafP=toXAF(f.priceUSD).toLocaleString('fr-FR');
+
+    const badges=[
+      f.isGabon?'<span class="badge airline-gab">🇬🇦 Compagnie gabonaise</span>':'',
+      isCheapest?'<span class="badge best-price">✦ Meilleur prix</span>':'',
+      isCheapest?'<span class="badge cheapest">💰 Moins cher</span>':'',
+      isFastest?'<span class="badge fastest">⚡ Plus rapide</span>':''
     ].filter(Boolean).join('');
-    const eurPrice=toEUR(f.price);
-    const xafPrice=toXAF(f.price);
-    const iid=f.ignav_id.replace(/'/g,"\\'");
-    const al=f.airline.replace(/'/g,"\\'");
+
+    // Sites avec liens directs — Skyscanner en premier (meilleur pour l'Afrique)
+    const sites=buildSites(f.ori,f.dst,dep,pax,ret);
+    const sitesHtml=sites.map((s,si)=>`
+      <a href="${s.url}" target="_blank" rel="noopener" class="site-btn ${si===0?'best-site':''}">
+        ${si===0?'<span class="best-site-badge">Recommandé</span>':''}
+        <span class="site-icon">${s.icon}</span>
+        <span class="site-name">${s.name}</span>
+      </a>`).join('');
+
     return `${lbl}<div class="fcard ${cc}">
-      <div class="al-wrap"><div class="al-logo ${lc}">${init}</div><div class="al-name">${f.airline}</div></div>
-      <div>
-        ${topBadge}
-        ${speedBadges?`<div style="margin-bottom:6px">${speedBadges}</div>`:''}
-        <div class="route-row">
-          <div><div class="iata">${f.ori}</div><div class="iata-sub">${fmt(f.depTime)}</div></div>
-          <div class="rmid">
-            ${f.dur?`<div class="dur-txt">${dur(f.dur)}</div>`:''}
-            <div class="rline"><div class="rl"></div><span style="font-size:.8rem">✈</span><div class="rl"></div></div>
-            <span class="pill ${f.stops===0?'direct':'stops'}">${f.stops===0?'Direct':f.stops+' escale'+(f.stops>1?'s':'')}</span>
+      <div class="fcard-top">
+        <div class="al-wrap">
+          <div class="al-logo ${lc}">${init}</div>
+          <div class="al-name">${f.airline}</div>
+        </div>
+        <div>
+          ${badges?`<div class="fcard-badges">${badges}</div>`:''}
+          <div class="route-row">
+            <div><div class="iata">${f.ori}</div><div class="iata-sub">${fmt(f.depTime)}</div></div>
+            <div class="rmid">
+              ${f.dur?`<div class="dur-txt">${dur(f.dur)}</div>`:''}
+              <div class="rline"><div class="rl"></div><span style="font-size:.8rem">✈</span><div class="rl"></div></div>
+              <span class="pill ${f.stops===0?'direct':'stops'}">${f.stops===0?'Direct':f.stops+' escale'+(f.stops>1?'s':'')}</span>
+            </div>
+            <div style="text-align:right"><div class="iata">${f.dst}</div><div class="iata-sub">${fmt(f.arrTime)}</div></div>
           </div>
-          <div style="text-align:right"><div class="iata">${f.dst}</div><div class="iata-sub">${fmt(f.arrTime)}</div></div>
+        </div>
+        <div class="fcard-right">
+          <div class="price-block">
+            <div class="price-label">prix indicatif</div>
+            <div class="price-eur">~${eurP} €</div>
+            <div class="price-xaf">~${xafP} XAF</div>
+            <div class="price-usd">${f.priceUSD} USD source</div>
+          </div>
         </div>
       </div>
-      <div class="fcard-price">
-        <div>
-          <div class="pp">par personne</div>
-          <div class="price-big">${eurPrice} €</div>
-          <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
-        </div>
-        <div class="book-btns">
-          ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.ori}','${f.dst}',document.getElementById('dep').value,'')">Voir les liens →</button>`:''}
-          <a href="https://www.skyscanner.fr/transport/vols/${f.ori.toLowerCase()}/${f.dst.toLowerCase()}/${document.getElementById('dep').value.replace(/-/g,'')}/?adults=${pax}" target="_blank" class="book-more">Skyscanner →</a>
-        </div>
+      <div class="sites-block">
+        <div class="sites-title">Réserver sur — cliquez pour voir le prix réel</div>
+        <div class="sites-grid">${sitesHtml}</div>
       </div>
     </div>`;
   }).join('');
+}
+
+function showRedirects(ori,dst,dep,pax,ret){
+  const sites=buildSites(ori,dst,dep,pax,ret);
+  document.getElementById('redirect-grid').innerHTML=sites.map(s=>`
+    <a href="${s.url}" target="_blank" rel="noopener" class="redir-btn">
+      <span>${s.icon}</span><div><div style="font-weight:600;font-size:.8rem">${s.name}</div></div>
+    </a>`).join('');
+  document.getElementById('redirect-box').style.display='block';
 }
 
 function setLoad(on){clearInterval(msgTimer);document.getElementById('loading').style.display=on?'block':'none';document.getElementById('go-btn').disabled=on;}
