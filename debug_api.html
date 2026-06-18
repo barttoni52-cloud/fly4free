@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Debug API</title>
+<style>
+body{font-family:monospace;padding:20px;background:#1a1a1a;color:#00ff00}
+button{background:#F5A623;color:#000;border:none;padding:10px 20px;border-radius:8px;font-size:1rem;cursor:pointer;margin:5px;font-weight:700}
+pre{background:#000;padding:16px;border-radius:8px;overflow:auto;font-size:.8rem;max-height:400px;white-space:pre-wrap;word-break:break-all}
+.ok{color:#00ff00}.err{color:#ff4444}.warn{color:#ffaa00}
+input{background:#333;color:#fff;border:1px solid #555;padding:8px;border-radius:4px;width:300px;font-family:monospace}
+</style>
+</head>
+<body>
+<h2>🔧 FLY4FREE — Debug API</h2>
+<p>Ce fichier teste l'API et affiche la réponse brute pour diagnostiquer le problème.</p>
+<hr style="border-color:#333;margin:16px 0">
+
+<h3>TEST 1 — Recherche aéroport</h3>
+<input id="q" value="Libreville" placeholder="Nom de ville"> 
+<button onclick="testAirport()">Tester searchAirport</button>
+<pre id="r1">En attente…</pre>
+
+<h3>TEST 2 — Recherche vols (avec les IDs trouvés)</h3>
+<input id="ori-sky" value="LBV" placeholder="Origin SkyId"> 
+<input id="ori-ent" value="" placeholder="Origin EntityId"><br><br>
+<input id="dst-sky" value="CDG" placeholder="Dest SkyId"> 
+<input id="dst-ent" value="" placeholder="Dest EntityId"><br><br>
+<input id="date" value="2026-07-15" type="date">
+<button onclick="testFlight()">Tester searchFlights</button>
+<pre id="r2">En attente…</pre>
+
+<h3>TEST 3 — Endpoint alternatif v1</h3>
+<button onclick="testV1()">Tester v1/searchFlights</button>
+<pre id="r3">En attente…</pre>
+
+<script>
+const KEY='115af328efmsh1dd7142e0faf2a4p186979jsn2aca5989fec5';
+const H={'x-rapidapi-host':'sky-scrapper.p.rapidapi.com','x-rapidapi-key':KEY};
+
+async function testAirport(){
+  const q=document.getElementById('q').value;
+  document.getElementById('r1').textContent='Chargement…';
+  try{
+    const r=await fetch(`https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport?query=${encodeURIComponent(q)}&locale=fr-FR`,{headers:H});
+    const d=await r.json();
+    document.getElementById('r1').textContent=JSON.stringify(d,null,2);
+    // Auto-fill entity IDs if found
+    if(d?.data?.[0]){
+      const first=d.data[0];
+      console.log('First result:',first);
+    }
+  }catch(e){document.getElementById('r1').textContent='ERREUR: '+e.message}
+}
+
+async function testFlight(){
+  const oSky=document.getElementById('ori-sky').value;
+  const oEnt=document.getElementById('ori-ent').value;
+  const dSky=document.getElementById('dst-sky').value;
+  const dEnt=document.getElementById('dst-ent').value;
+  const date=document.getElementById('date').value;
+  document.getElementById('r2').textContent='Chargement…';
+  
+  // Try multiple date formats
+  const [y,m,d]=date.split('-');
+  const formats=[
+    date,           // 2026-07-15
+    `${d}/${m}/${y}`, // 15/07/2026
+    `${d}-${m}-${y}`, // 15-07-2026
+  ];
+  
+  for(const fmt of formats){
+    try{
+      const url=`https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlights?originSkyId=${oSky}&destinationSkyId=${dSky}&originEntityId=${oEnt}&destinationEntityId=${dEnt}&date=${fmt}&adults=1&currency=EUR&countryCode=FR&market=fr-FR`;
+      document.getElementById('r2').textContent+=`\n\n--- FORMAT: ${fmt} ---\nURL: ${url}\n`;
+      const r=await fetch(url,{headers:H});
+      const data=await r.json();
+      document.getElementById('r2').textContent+=JSON.stringify(data,null,2).slice(0,2000);
+      if(data?.data?.itineraries?.length) break; // stop if found results
+    }catch(e){document.getElementById('r2').textContent+='ERREUR: '+e.message}
+  }
+}
+
+async function testV1(){
+  const oSky=document.getElementById('ori-sky').value;
+  const dSky=document.getElementById('dst-sky').value;
+  const date=document.getElementById('date').value;
+  document.getElementById('r3').textContent='Chargement…';
+  try{
+    const url=`https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights?originSkyId=${oSky}&destinationSkyId=${dSky}&date=${date}&adults=1&currency=EUR`;
+    const r=await fetch(url,{headers:H});
+    const data=await r.json();
+    document.getElementById('r3').textContent=JSON.stringify(data,null,2).slice(0,3000);
+  }catch(e){document.getElementById('r3').textContent='ERREUR: '+e.message}
+}
+</script>
+</body>
+</html>
