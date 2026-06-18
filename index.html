@@ -499,9 +499,9 @@ function handle(data,ori,dst,dep,pax,ret){
       isGabon:isGab(airline),isAfrican:isAfr(airline),ignav_id:it?.ignav_id||''};
   }).filter(Boolean);
   if(flights.length){
-    const prices=flights.map(f=>f.price);
-    document.getElementById('s-min').textContent=Math.min(...prices)+' '+flights[0].currency;
-    document.getElementById('s-avg').textContent=Math.round(prices.reduce((a,b)=>a+b,0)/prices.length)+' '+flights[0].currency;
+    const prices=flights.map(f=>Math.round(f.price*0.92));
+    document.getElementById('s-min').textContent=Math.min(...prices)+' €';
+    document.getElementById('s-avg').textContent=Math.round(prices.reduce((a,b)=>a+b,0)/prices.length)+' €';
     document.getElementById('s-cnt').textContent=flights.length;
     document.getElementById('stats').style.display='grid';
     document.getElementById('sort-row').style.display='flex';
@@ -588,22 +588,9 @@ function render(){
       isCheapest?'<span class="speed-badge cheapest">💰 Moins cher</span>':'',
       isFastest?'<span class="speed-badge fastest">⚡ Plus rapide</span>':''
     ].filter(Boolean).join('');
-    // Prix brut tel que retourné par l'API
-    const rawPrice=f.price;
-    const rawCurrency=f.currency;
-    // Conversion : si EUR, afficher tel quel. Si USD, convertir. Sinon afficher brut.
-    let eurPrice, xafPrice;
-    if(rawCurrency==='EUR'){
-      eurPrice=rawPrice;
-      xafPrice=Math.round(rawPrice*655.957);
-    } else if(rawCurrency==='USD'){
-      eurPrice=Math.round(rawPrice*0.92);
-      xafPrice=Math.round(rawPrice*0.92*655.957);
-    } else {
-      // Devise inconnue — afficher brut
-      eurPrice=rawPrice;
-      xafPrice=Math.round(rawPrice*655.957);
-    }
+    // API retourne en USD — conversion EUR (0.92) et XAF (655.957 * 0.92)
+    const eurPrice=Math.round(f.price*0.92);
+    const xafPrice=Math.round(f.price*0.92*655.957);
     const iid=f.ignav_id.replace(/'/g,"\\'");
     const al=f.airline.replace(/'/g,"\\'");
     return `${lbl}<div class="fcard ${cc}">
@@ -624,7 +611,7 @@ function render(){
       <div class="fcard-price">
         <div>
           <div class="pp">par personne</div>
-          <div class="price-big">${eurPrice} ${rawCurrency}</div>
+          <div class="price-big">${eurPrice} €</div>
           <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
         </div>
         <div class="book-btns">
