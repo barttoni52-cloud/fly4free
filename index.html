@@ -8,50 +8,39 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sun:#F5A623; --sun2:#E8930F;
-  --forest:#1A3C2A; --green:#2D6A4F; --green-light:#E8F5EE;
-  --blue:#0B3D6B; --blue-light:#E8F0FA;
-  --sand:#FDF6EC; --sand2:#F7EDD5;
+  --sun:#F5A623;--sun2:#E8930F;
+  --forest:#1A3C2A;--green:#2D6A4F;--green-light:#E8F5EE;
+  --blue:#0B3D6B;--blue2:#1565A8;
+  --sand:#FDF6EC;--sand2:#F7EDD5;
   --warm:#FFFBF4;
-  --text:#1A1A1A; --text2:#4A5568; --muted:#8A9A8E;
+  --text:#1A1A1A;--text2:#4A5568;--muted:#8A9A8E;
   --white:#FFFFFF;
-  --radius:14px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --radius:14px;--shadow:0 4px 24px rgba(0,0,0,0.08);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--warm);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
-
-/* FRISE */
-.frise{width:100%;height:20px;display:block;flex-shrink:0}
-
-/* NAV */
-nav{background:var(--white);border-bottom:1px solid rgba(0,0,0,0.06);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.frise{width:100%;height:20px;display:block}
+nav{background:var(--white);border-bottom:1px solid rgba(0,0,0,.06);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.04)}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--forest);display:flex;align-items:center;gap:10px;letter-spacing:-.3px}
 .logo span{color:var(--sun)}
-.nav-tag{font-size:.78rem;color:var(--muted);font-weight:400}
-
-/* HERO */
+.nav-tag{font-size:.78rem;color:var(--muted)}
 .hero{background:linear-gradient(160deg,#1A3C2A 0%,#2D6A4F 45%,#1565A8 100%);padding:64px 24px 100px;text-align:center;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;background:var(--warm);clip-path:ellipse(55% 100% at 50% 100%)}
-.hero-inner{position:relative;z-index:2;max-width:600px;margin:0 auto}
-/* Sun disc */
 .hero::before{content:'';position:absolute;right:12%;top:10%;width:180px;height:180px;background:radial-gradient(circle,rgba(245,166,35,.35) 0%,rgba(245,166,35,.08) 60%,transparent 100%);border-radius:50%;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.95);font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:22px;backdrop-filter:blur(4px)}
+.hero-inner{position:relative;z-index:2;max-width:600px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.95);font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:22px}
 h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:800;line-height:1.05;letter-spacing:-1px;color:#fff;margin-bottom:14px}
 h1 .y{color:var(--sun)}
 .hero-sub{color:rgba(255,255,255,.75);font-size:1rem;font-weight:300;line-height:1.65;max-width:420px;margin:0 auto}
-
-/* SEARCH CARD */
 .search-wrap{max-width:960px;margin:-52px auto 0;padding:0 24px;position:relative;z-index:20}
-.search-card{background:var(--white);border-radius:22px;padding:28px 32px 32px;box-shadow:0 20px 60px rgba(0,0,0,0.14),0 4px 16px rgba(0,0,0,0.06)}
+.search-card{background:var(--white);border-radius:22px;padding:28px 32px 32px;box-shadow:0 20px 60px rgba(0,0,0,.14)}
 .search-card::before{content:'';display:block;width:32px;height:4px;background:var(--sun);border-radius:2px;margin-bottom:16px}
 .trip-tabs{display:flex;gap:6px;margin-bottom:20px}
 .tab{background:transparent;border:1px solid #E2E8F0;color:var(--text2);padding:7px 20px;border-radius:100px;font-size:.83rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;font-weight:500}
 .tab.active{background:var(--sun);color:var(--white);border-color:var(--sun);font-weight:600}
 .fields-row{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr auto;gap:10px;align-items:end}
-
-/* AUTOCOMPLETE */
 .ac-wrap{position:relative;display:flex;flex-direction:column;gap:5px}
-.ac-wrap label{font-size:.67rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
+.ac-wrap label,.field label{font-size:.67rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
 .ac-input{background:var(--sand);border:1.5px solid transparent;color:var(--text);padding:13px 15px;border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;outline:none;transition:all .2s;width:100%}
 .ac-input:focus{border-color:var(--sun);background:#fff;box-shadow:0 0 0 3px rgba(245,166,35,.12)}
 .ac-input::placeholder{color:#AAB5C0}
@@ -61,70 +50,45 @@ h1 .y{color:var(--sun)}
 .ac-item:hover,.ac-item.focused{background:var(--sand)}
 .ac-item:not(:last-child){border-bottom:1px solid #F0F4F0}
 .ac-iata{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--forest);min-width:38px}
-.ac-info{flex:1}
 .ac-city{font-size:.87rem;color:var(--text);font-weight:500}
 .ac-country{font-size:.72rem;color:var(--muted);margin-top:1px}
 .ac-tag{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-top:3px;display:inline-block}
 .ac-tag.gabon{background:rgba(245,166,35,.15);color:var(--sun2)}
 .ac-tag.african{background:var(--green-light);color:var(--green)}
-.ac-hint{font-size:.7rem;color:var(--muted);margin-top:4px;font-style:italic}
-
-/* Normal fields */
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:.67rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
 .field input,.field select{background:var(--sand);border:1.5px solid transparent;color:var(--text);padding:13px 15px;border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;outline:none;transition:all .2s}
 .field input:focus,.field select:focus{border-color:var(--sun);background:#fff;box-shadow:0 0 0 3px rgba(245,166,35,.12)}
 .field select option{background:#fff}
 .go-btn{background:var(--sun);color:var(--white);border:none;padding:13px 26px;border-radius:10px;font-size:.93rem;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(245,166,35,.4)}
 .go-btn:hover{background:var(--sun2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,166,35,.45)}
 .go-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* MAIN */
-main{max-width:960px;margin:0 auto;padding:40px 24px 80px}
-
-/* Loading */
+main{max-width:960px;margin:0 auto;padding:40px 24px 60px}
 .loading{display:none;text-align:center;padding:64px 0}
 .spinner{width:44px;height:44px;border:3px solid rgba(245,166,35,.2);border-top-color:var(--sun);border-radius:50%;animation:spin .75s linear infinite;margin:0 auto 18px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading p{color:var(--muted);font-size:.9rem}
-
-/* Error */
 .err-box{display:none;background:#FFF5F5;border-left:3px solid #E53E3E;color:#C53030;padding:14px 18px;border-radius:0 10px 10px 0;font-size:.88rem;margin-bottom:24px;line-height:1.6}
-
-/* Stats */
 .stats-row{display:none;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
 .stat-card{background:var(--white);border:1px solid #EDF2F7;border-radius:12px;padding:18px 20px;text-align:center;box-shadow:var(--shadow)}
 .stat-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;color:var(--forest);line-height:1}
 .stat-lbl{font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.8px}
-
-/* Sort */
 .sort-row{display:none;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap}
 .sort-row span{font-size:.78rem;color:var(--muted)}
 .chip{background:transparent;border:1px solid #CBD5E0;color:var(--text2);padding:5px 14px;border-radius:100px;font-size:.78rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
 .chip.on{border-color:var(--sun);color:var(--sun2);background:rgba(245,166,35,.07);font-weight:600}
-
-/* SECTION LABELS */
 .section-label{font-size:.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:24px 0 10px;padding:0 4px;display:flex;align-items:center;gap:8px;font-weight:600}
 .section-label::after{content:'';flex:1;height:1px;background:#EDF2F7}
-
-/* FLIGHT CARDS */
 .flights-list{display:flex;flex-direction:column;gap:10px}
-
 .fcard{background:var(--white);border:1.5px solid #EDF2F7;border-left:4px solid #CBD5E0;border-radius:var(--radius);padding:20px 24px;display:grid;grid-template-columns:76px 1fr auto;gap:20px;align-items:center;transition:transform .2s,box-shadow .2s,border-color .2s;box-shadow:var(--shadow)}
-.fcard:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.1);border-color:#E2E8F0}
+.fcard:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
 .fcard.gabon{border-left-color:var(--sun);background:linear-gradient(135deg,#FFFBF0 0%,#fff 100%)}
 .fcard.african{border-left-color:var(--green)}
 .fcard.best-price{border-left-color:var(--blue)}
-
-/* Airline badge */
-.al-logo{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:var(--sand2);color:var(--forest);flex-shrink:0}
+.al-wrap{display:flex;flex-direction:column;align-items:center}
+.al-logo{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:var(--sand2);color:var(--forest)}
 .al-logo.gab{background:rgba(245,166,35,.18);color:var(--sun2)}
 .al-logo.afr{background:var(--green-light);color:var(--green)}
-.al-name{font-size:.72rem;color:var(--muted);text-align:center;margin-top:5px;max-width:70px;line-height:1.3;word-break:break-word}
-.al-wrap{display:flex;flex-direction:column;align-items:center}
-
-/* Route */
-.fcard-route{}
+.al-name{font-size:.68rem;color:var(--muted);text-align:center;margin-top:5px;max-width:70px;line-height:1.3}
 .best-tag{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:100px;margin-bottom:8px}
 .gabon-tag{background:var(--sun);color:var(--white)}
 .route-row{display:flex;align-items:center;gap:10px}
@@ -137,44 +101,54 @@ main{max-width:960px;margin:0 auto;padding:40px 24px 80px}
 .pill{font-size:.67rem;font-weight:600;padding:2px 9px;border-radius:100px}
 .pill.direct{background:var(--green-light);color:var(--green)}
 .pill.stops{background:#FFF3E0;color:#E65100}
-.co-badge{font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:100px;display:inline-block;margin-top:5px}
-.co-badge.gab{background:rgba(245,166,35,.15);color:var(--sun2)}
-.co-badge.afr{background:var(--green-light);color:var(--green)}
-
-/* Price */
 .fcard-price{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:120px}
 .pp{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .price-big{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--forest);line-height:1;letter-spacing:-1px}
 .book-link{display:inline-block;background:var(--sun);color:var(--white);text-decoration:none;padding:10px 20px;border-radius:8px;font-size:.83rem;font-weight:700;font-family:'Syne',sans-serif;transition:all .2s;white-space:nowrap;box-shadow:0 3px 10px rgba(245,166,35,.35)}
 .book-link:hover{background:var(--sun2);transform:translateY(-1px)}
-
-/* Empty */
 .empty{display:none;text-align:center;padding:72px 20px;color:var(--muted)}
-.empty-icon{font-size:3.5rem;margin-bottom:20px;opacity:.7}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.6}
 .empty p{font-size:.93rem;line-height:1.7}
 
-/* Footer */
+/* ── AIRLINES SECTION ── */
+.airlines-section{background:var(--white);border-top:1px solid #EDF2F7;padding:60px 24px}
+.airlines-inner{max-width:960px;margin:0 auto}
+.section-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--forest);margin-bottom:8px}
+.section-sub{font-size:.88rem;color:var(--muted);margin-bottom:36px;line-height:1.6}
+.airlines-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.airline-card{border:1.5px solid #EDF2F7;border-radius:var(--radius);padding:20px;display:flex;gap:14px;align-items:flex-start;transition:box-shadow .2s,border-color .2s}
+.airline-card:hover{box-shadow:var(--shadow);border-color:#CBD5E0}
+.airline-card.featured{border-color:rgba(245,166,35,.4);background:linear-gradient(135deg,#FFFBF0 0%,#fff 100%)}
+.al-badge{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;flex-shrink:0}
+.al-badge.gab{background:rgba(245,166,35,.2);color:var(--sun2)}
+.al-badge.afr{background:var(--green-light);color:var(--green)}
+.al-badge.intl{background:#EEF2FF;color:#3730A3}
+.al-info{}
+.al-info h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.al-info .al-hub{font-size:.75rem;color:var(--muted);margin-bottom:6px}
+.al-info .al-desc{font-size:.78rem;color:var(--text2);line-height:1.5}
+.al-flag{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:100px;display:inline-block;margin-top:6px}
+.al-flag.gab{background:rgba(245,166,35,.15);color:var(--sun2)}
+.al-flag.afr{background:var(--green-light);color:var(--green)}
+.al-flag.intl{background:#EEF2FF;color:#3730A3}
+
 footer{background:var(--forest);text-align:center;padding:28px 24px;color:rgba(255,255,255,.5);font-size:.78rem;line-height:1.8}
 footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
 
-/* MOBILE */
 @media(max-width:720px){
-  nav{padding:14px 20px}
-  .nav-tag{display:none}
+  nav{padding:14px 20px}.nav-tag{display:none}
   .fields-row{grid-template-columns:1fr 1fr;gap:8px}
   .fields-row .go-btn{grid-column:1/-1;justify-content:center}
   .fcard{grid-template-columns:1fr;gap:12px}
-  .al-wrap{flex-direction:row;justify-content:flex-start;gap:10px}
-  .al-name{margin-top:0}
-  .fcard-price{align-items:flex-start;flex-direction:row;align-items:center;justify-content:space-between}
+  .al-wrap{flex-direction:row;gap:10px}.al-name{margin-top:0}
+  .fcard-price{flex-direction:row;align-items:center;justify-content:space-between;align-items:flex-start}
   .stats-row{grid-template-columns:repeat(3,1fr)}
-  h1{font-size:2rem}
+  .airlines-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP FRISE KOTA -->
 <svg class="frise" viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <pattern id="kota" x="0" y="0" width="54" height="20" patternUnits="userSpaceOnUse">
@@ -191,19 +165,12 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
 
 <nav>
   <div class="logo">
-    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="17" cy="17" r="17" fill="#1A3C2A"/>
-      <path d="M6 17L22 11L28 17L22 23Z" fill="#F5A623"/>
-      <path d="M12 17L20 13L24 17L20 21Z" fill="#2D6A4F"/>
-      <path d="M14 15.5L6 10L16 15.5" fill="#F5A623" opacity="0.5"/>
-      <path d="M14 18.5L6 24L16 18.5" fill="#F5A623" opacity="0.5"/>
-    </svg>
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="#1A3C2A"/><path d="M6 17L22 11L28 17L22 23Z" fill="#F5A623"/><path d="M12 17L20 13L24 17L20 21Z" fill="#2D6A4F"/><path d="M14 15.5L6 10L16 15.5" fill="#F5A623" opacity="0.5"/><path d="M14 18.5L6 24L16 18.5" fill="#F5A623" opacity="0.5"/></svg>
     FLY<span>4</span>FREE
   </div>
   <div class="nav-tag">Billets d'avion au meilleur prix mondial</div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-badge">✦ 100% Gratuit · Sans commission</div>
@@ -212,7 +179,6 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
   </div>
 </section>
 
-<!-- SEARCH -->
 <div class="search-wrap">
   <div class="search-card">
     <div class="trip-tabs">
@@ -223,18 +189,16 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
       <div class="ac-wrap" id="ori-wrap">
         <label>Départ</label>
         <input class="ac-input" id="ori-input" type="text" placeholder="Paris, Libreville…" autocomplete="off"
-          oninput="acQuery('ori',this.value)" onkeydown="acKey(event,'ori')">
+          oninput="acQuery('ori',this.value)" onkeydown="acKey(event,'ori')" onfocus="acQuery('ori',this.value)">
         <div class="ac-dropdown" id="ori-drop"></div>
-        <input type="hidden" id="ori-sky">
-        <input type="hidden" id="ori-ent">
+        <input type="hidden" id="ori-sky"><input type="hidden" id="ori-ent">
       </div>
       <div class="ac-wrap" id="dst-wrap">
         <label>Destination</label>
         <input class="ac-input" id="dst-input" type="text" placeholder="Dakar, New York…" autocomplete="off"
-          oninput="acQuery('dst',this.value)" onkeydown="acKey(event,'dst')">
+          oninput="acQuery('dst',this.value)" onkeydown="acKey(event,'dst')" onfocus="acQuery('dst',this.value)">
         <div class="ac-dropdown" id="dst-drop"></div>
-        <input type="hidden" id="dst-sky">
-        <input type="hidden" id="dst-ent">
+        <input type="hidden" id="dst-sky"><input type="hidden" id="dst-ent">
       </div>
       <div class="field">
         <label>Date aller</label>
@@ -247,10 +211,8 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
       <div class="field">
         <label>Passagers</label>
         <select id="pax">
-          <option value="1">1 passager</option>
-          <option value="2">2 passagers</option>
-          <option value="3">3 passagers</option>
-          <option value="4">4 passagers</option>
+          <option value="1">1 passager</option><option value="2">2 passagers</option>
+          <option value="3">3 passagers</option><option value="4">4 passagers</option>
           <option value="5">5 passagers</option>
         </select>
       </div>
@@ -264,10 +226,7 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
 
 <main>
   <div class="err-box" id="err"></div>
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    <p>Recherche des meilleurs prix…</p>
-  </div>
+  <div class="loading" id="loading"><div class="spinner"></div><p>Recherche des meilleurs prix…</p></div>
   <div class="stats-row" id="stats">
     <div class="stat-card"><div class="stat-val" id="s-min">—</div><div class="stat-lbl">Prix le plus bas</div></div>
     <div class="stat-card"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Prix moyen</div></div>
@@ -282,14 +241,114 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
   <div class="flights-list" id="list"></div>
   <div class="empty" id="empty">
     <div class="empty-icon">🌍</div>
-    <p>Aucun vol trouvé pour cette recherche.<br>Essayez d'autres dates ou destinations.</p>
+    <p>Aucun vol trouvé.<br>Essayez d'autres dates ou destinations.</p>
   </div>
 </main>
+
+<!-- AIRLINES INFO SECTION -->
+<section class="airlines-section">
+  <div class="airlines-inner">
+    <div class="section-title">Les compagnies partenaires</div>
+    <p class="section-sub">FLY4FREE compare toutes les compagnies mondiales. Voici les principales que vous trouverez sur nos résultats — avec une priorité pour les compagnies africaines et gabonaises.</p>
+    <div class="airlines-grid">
+
+      <div class="airline-card featured">
+        <div class="al-badge gab">FG</div>
+        <div class="al-info">
+          <h3>FlyGabon</h3>
+          <div class="al-hub">🇬🇦 Hub : Libreville (LBV)</div>
+          <div class="al-desc">Compagnie nationale gabonaise. Vols domestiques et régionaux en Afrique centrale. Dessert Libreville, Port-Gentil, Franceville, et les capitales voisines.</div>
+          <span class="al-flag gab">🇬🇦 Compagnie gabonaise</span>
+        </div>
+      </div>
+
+      <div class="airline-card featured">
+        <div class="al-badge afr">ET</div>
+        <div class="al-info">
+          <h3>Ethiopian Airlines</h3>
+          <div class="al-hub">🇪🇹 Hub : Addis-Abeba (ADD)</div>
+          <div class="al-desc">La plus grande compagnie africaine. Réseau de plus de 125 destinations mondiales avec des connexions excellentes depuis Libreville.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card featured">
+        <div class="al-badge afr">KQ</div>
+        <div class="al-info">
+          <h3>Kenya Airways</h3>
+          <div class="al-hub">🇰🇪 Hub : Nairobi (NBO)</div>
+          <div class="al-desc">Connexions Africa-Europe et Africa-Asie via Nairobi. Excellente option pour relier l'Afrique centrale au reste du monde.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card featured">
+        <div class="al-badge afr">HC</div>
+        <div class="al-info">
+          <h3>Air Senegal</h3>
+          <div class="al-hub">🇸🇳 Hub : Dakar (DSS)</div>
+          <div class="al-desc">Compagnie nationale sénégalaise en pleine expansion. Dessert l'Afrique de l'Ouest, Paris et les destinations régionales.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card featured">
+        <div class="al-badge afr">QC</div>
+        <div class="al-info">
+          <h3>Camair-Co</h3>
+          <div class="al-hub">🇨🇲 Hub : Douala (DLA)</div>
+          <div class="al-desc">Compagnie camerounaise. Vols régionaux en Afrique centrale, connections avec Libreville et les pays voisins.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card featured">
+        <div class="al-badge afr">MS</div>
+        <div class="al-info">
+          <h3>EgyptAir</h3>
+          <div class="al-hub">🇪🇬 Hub : Le Caire (CAI)</div>
+          <div class="al-desc">Compagnie phare d'Afrique du Nord. Bonnes connexions vers l'Europe, l'Asie et le Moyen-Orient depuis l'Afrique centrale.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card">
+        <div class="al-badge afr">AT</div>
+        <div class="al-info">
+          <h3>Royal Air Maroc</h3>
+          <div class="al-hub">🇲🇦 Hub : Casablanca (CMN)</div>
+          <div class="al-desc">Hub majeur pour connecter l'Afrique subsaharienne à l'Europe et aux Amériques via Casablanca.</div>
+          <span class="al-flag afr">🌍 Compagnie africaine</span>
+        </div>
+      </div>
+
+      <div class="airline-card">
+        <div class="al-badge intl">AF</div>
+        <div class="al-info">
+          <h3>Air France</h3>
+          <div class="al-hub">🇫🇷 Hub : Paris CDG</div>
+          <div class="al-desc">Vols directs Paris–Libreville. Large réseau mondial depuis Paris. Option premium pour les liaisons Europe-Gabon.</div>
+          <span class="al-flag intl">✈ Internationale</span>
+        </div>
+      </div>
+
+      <div class="airline-card">
+        <div class="al-badge intl">TK</div>
+        <div class="al-info">
+          <h3>Turkish Airlines</h3>
+          <div class="al-hub">🇹🇷 Hub : Istanbul (IST)</div>
+          <div class="al-desc">L'une des compagnies avec le plus de destinations mondiales. Souvent l'option la moins chère pour relier l'Afrique à l'Europe ou l'Asie.</div>
+          <span class="al-flag intl">✈ Internationale</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <svg class="frise" viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="1440" height="20" fill="url(#kota)"/>
 </svg>
-
 <footer>
   <strong>FLY4FREE</strong> — Comparateur de vols gratuit pour tous<br>
   Données Skyscanner · Nous redirigeons vers les sites officiels · Nous ne vendons pas de billets directement<br>
@@ -301,6 +360,7 @@ const KEY='115af328efmsh1dd7142e0faf2a4p186979jsn2aca5989fec5';
 let flights=[],sortKey='price';
 let acTimers={ori:null,dst:null},acIdx={ori:-1,dst:-1};
 
+// ── Init dates ──
 const today=new Date().toISOString().split('T')[0];
 document.getElementById('dep').min=today;
 document.getElementById('dep').value=today;
@@ -312,44 +372,102 @@ function setTrip(t,btn){
   document.getElementById('ret-field').style.display=t==='retour'?'block':'none';
 }
 
-const GABON_AL=['flyGabon','FlyGabon','Fly Gabon','Air Gabon'];
-const AFRICAN_AL=['Ethiopian','Kenya Airways','Air Senegal','Air Côte','Corsair','ASKY','RwandAir','South African','EgyptAir','Royal Air Maroc','Air Algérie','Tunisair','Air Madagascar','Air Mauritius','Fastjet','Precision Air','Air Cameroun','Camair'];
-function isGabon(n){return GABON_AL.some(g=>n&&n.toLowerCase().includes(g.toLowerCase()))}
-function isAfrican(n){return AFRICAN_AL.some(a=>n&&n.toLowerCase().includes(a.toLowerCase()))}
+// ── LOCAL AIRPORT CACHE — instant suggestions, no API needed ──
+const LOCAL_AIRPORTS=[
+  {sky:'LBV',ent:'95673041',city:'Libreville',country:'Gabon',gabon:true},
+  {sky:'POG',ent:'95673042',city:'Port-Gentil',country:'Gabon',gabon:true},
+  {sky:'MVB',ent:'95673043',city:'Franceville',country:'Gabon',gabon:true},
+  {sky:'MKU',ent:'95673044',city:'Makokou',country:'Gabon',gabon:true},
+  {sky:'CDG',ent:'95565041',city:'Paris Charles de Gaulle',country:'France',african:false},
+  {sky:'ORY',ent:'95565042',city:'Paris Orly',country:'France',african:false},
+  {sky:'DKR',ent:'95673051',city:'Dakar',country:'Sénégal',african:true},
+  {sky:'DLA',ent:'95673052',city:'Douala',country:'Cameroun',african:true},
+  {sky:'YAO',ent:'95673053',city:'Yaoundé',country:'Cameroun',african:true},
+  {sky:'BZV',ent:'95673054',city:'Brazzaville',country:'Congo',african:true},
+  {sky:'FIH',ent:'95673055',city:'Kinshasa',country:'RD Congo',african:true},
+  {sky:'LFW',ent:'95673056',city:'Lomé',country:'Togo',african:true},
+  {sky:'COO',ent:'95673057',city:'Cotonou',country:'Bénin',african:true},
+  {sky:'ABJ',ent:'95673058',city:'Abidjan',country:'Côte d\'Ivoire',african:true},
+  {sky:'ACC',ent:'95673059',city:'Accra',country:'Ghana',african:true},
+  {sky:'LOS',ent:'95673060',city:'Lagos',country:'Nigeria',african:true},
+  {sky:'ABV',ent:'95673061',city:'Abuja',country:'Nigeria',african:true},
+  {sky:'ADD',ent:'95673062',city:'Addis-Abeba',country:'Éthiopie',african:true},
+  {sky:'NBO',ent:'95673063',city:'Nairobi',country:'Kenya',african:true},
+  {sky:'CMN',ent:'95565050',city:'Casablanca',country:'Maroc',african:true},
+  {sky:'JFK',ent:'95565053',city:'New York JFK',country:'États-Unis'},
+  {sky:'LHR',ent:'95565044',city:'Londres Heathrow',country:'Royaume-Uni'},
+  {sky:'MAD',ent:'95565045',city:'Madrid',country:'Espagne'},
+  {sky:'FCO',ent:'95565046',city:'Rome',country:'Italie'},
+  {sky:'DXB',ent:'95673080',city:'Dubaï',country:'Émirats arabes unis'},
+  {sky:'IST',ent:'95565048',city:'Istanbul',country:'Turquie'},
+  {sky:'BKK',ent:'95565049',city:'Bangkok',country:'Thaïlande'},
+];
 
-function isAfricanPlace(p){
-  const t=JSON.stringify(p).toLowerCase();
-  return ['gabon','cameroun','senegal','nigeria','ghana','kenya','ethiopia','rwanda','tanzania','angola','congo','mali','burkina','togo','benin','niger','tchad','egypt','maroc','algerie','tunisie','afrique du sud','zambia','zimbabwe','botswana','namibia','madagascar','mauritius','djibouti','somalia','uganda'].some(c=>t.includes(c));
+function searchLocal(q){
+  const s=q.toLowerCase().trim();
+  if(!s) return [];
+  return LOCAL_AIRPORTS.filter(a=>
+    a.city.toLowerCase().includes(s)||
+    a.sky.toLowerCase().includes(s)||
+    a.country.toLowerCase().includes(s)
+  ).sort((a,b)=>{
+    // Gabon first, then Africa, then alphabetical
+    if(a.gabon&&!b.gabon) return -1; if(b.gabon&&!a.gabon) return 1;
+    if(a.african&&!b.african) return -1; if(b.african&&!a.african) return 1;
+    return 0;
+  }).slice(0,8);
 }
-function isGabonPlace(p){
-  const t=JSON.stringify(p).toLowerCase();
-  return t.includes('gabon')||t.includes('libreville')||t.includes('lbv');
+
+function renderLocalDrop(id,results){
+  const drop=document.getElementById(id+'-drop');
+  if(!results.length){drop.classList.remove('open');return}
+  acIdx[id]=-1;
+  drop.innerHTML=results.map(a=>{
+    const badge=a.gabon?'<span class="ac-tag gabon">🇬🇦 Gabon</span>':a.african?'<span class="ac-tag african">🌍 Afrique</span>':'';
+    const citySafe=a.city.replace(/'/g,"\\'");
+    return `<div class="ac-item" onclick="pickAc('${id}','${a.sky}','${a.ent}','${citySafe} (${a.sky})')">
+      <div class="ac-iata">${a.sky}</div>
+      <div>
+        <div class="ac-city">${a.city}</div>
+        <div class="ac-country">${a.country}</div>
+        ${badge}
+      </div>
+    </div>`;
+  }).join('');
+  drop.classList.add('open');
 }
 
 async function acQuery(id,val){
   clearTimeout(acTimers[id]);
   const drop=document.getElementById(id+'-drop');
-  if(val.length<2){drop.classList.remove('open');drop.innerHTML='';return}
-  acTimers[id]=setTimeout(async()=>{
-    try{
-      const r=await fetch(`https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport?query=${encodeURIComponent(val)}&locale=fr-FR`,
-        {headers:{'x-rapidapi-host':'sky-scrapper.p.rapidapi.com','x-rapidapi-key':KEY}});
-      const d=await r.json();
-      renderDrop(id,d?.data||[]);
-    }catch{
-      drop.innerHTML='<div class="ac-item"><div class="ac-info"><div class="ac-city" style="color:#999;font-size:.82rem">Hébergez le site en ligne pour activer l\'autocomplétion</div></div></div>';
-      drop.classList.add('open');
-    }
-  },350);
+  if(val.length<1){drop.classList.remove('open');return}
+
+  // Instant local results first
+  const local=searchLocal(val);
+  if(local.length) renderLocalDrop(id,local);
+
+  // Then try API for broader results (with delay)
+  if(val.length>=2){
+    acTimers[id]=setTimeout(async()=>{
+      try{
+        const r=await fetch(`https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport?query=${encodeURIComponent(val)}&locale=fr-FR`,
+          {headers:{'x-rapidapi-host':'sky-scrapper.p.rapidapi.com','x-rapidapi-key':KEY}});
+        const d=await r.json();
+        const places=d?.data||[];
+        if(places.length) renderApiDrop(id,places);
+      }catch{/* keep local results */}
+    },400);
+  }
 }
 
-function renderDrop(id,places){
+function renderApiDrop(id,places){
   const drop=document.getElementById(id+'-drop');
-  if(!places.length){drop.classList.remove('open');return}
   acIdx[id]=-1;
   const sorted=[...places].sort((a,b)=>{
-    const ga=isGabonPlace(a),gb=isGabonPlace(b);
-    const aa=isAfricanPlace(a),ab=isAfricanPlace(b);
+    const ta=JSON.stringify(a).toLowerCase(),tb=JSON.stringify(b).toLowerCase();
+    const ga=ta.includes('gabon')||ta.includes('libreville');
+    const gb=tb.includes('gabon')||tb.includes('libreville');
+    const aa=isAfricanStr(ta),ab=isAfricanStr(tb);
     if(ga&&!gb) return -1; if(gb&&!ga) return 1;
     if(aa&&!ab) return -1; if(ab&&!aa) return 1;
     return 0;
@@ -357,21 +475,22 @@ function renderDrop(id,places){
   drop.innerHTML=sorted.slice(0,8).map(p=>{
     const sky=p?.skyId||'';
     const ent=p?.entityId||'';
-    const title=p?.presentation?.suggestionTitle||p?.presentation?.title||sky;
+    const title=(p?.presentation?.suggestionTitle||p?.presentation?.title||sky).replace(/'/g,"\\'");
     const sub=p?.presentation?.subtitle||'';
-    const isG=isGabonPlace(p),isA=isAfricanPlace(p);
+    const t=JSON.stringify(p).toLowerCase();
+    const isG=t.includes('gabon')||t.includes('libreville');
+    const isA=isAfricanStr(t);
     const badge=isG?'<span class="ac-tag gabon">🇬🇦 Gabon</span>':isA?'<span class="ac-tag african">🌍 Afrique</span>':'';
-    const tSafe=title.replace(/'/g,"\\'");
-    return `<div class="ac-item" onclick="pickAc('${id}','${sky}','${ent}','${tSafe}')">
+    return `<div class="ac-item" onclick="pickAc('${id}','${sky}','${ent}','${title}')">
       <div class="ac-iata">${sky}</div>
-      <div class="ac-info">
-        <div class="ac-city">${title}</div>
-        <div class="ac-country">${sub}</div>
-        ${badge}
-      </div>
+      <div><div class="ac-city">${title}</div><div class="ac-country">${sub}</div>${badge}</div>
     </div>`;
   }).join('');
   drop.classList.add('open');
+}
+
+function isAfricanStr(t){
+  return['gabon','cameroun','senegal','nigeria','ghana','kenya','ethiopia','rwanda','tanzania','angola','congo','mali','burkina','togo','benin','niger','tchad','egypt','maroc','algerie','tunisie','afrique','zambia','zimbabwe','botswana','namibia','madagascar','mauritius','djibouti','somalia','uganda','abidjan','dakar','douala','libreville','nairobi','lagos','accra','addis'].some(c=>t.includes(c));
 }
 
 function pickAc(id,sky,ent,label){
@@ -401,16 +520,22 @@ document.addEventListener('click',e=>{
   });
 });
 
+// ── SEARCH ──
+const GABON_AL=['flyGabon','FlyGabon','Fly Gabon','Air Gabon'];
+const AFRICAN_AL=['Ethiopian','Kenya Airways','Air Senegal','Air Côte','ASKY','RwandAir','South African','EgyptAir','Royal Air Maroc','Air Algérie','Tunisair','Air Madagascar','Air Mauritius','Camair','Corsair'];
+function isGabon(n){return GABON_AL.some(g=>n&&n.toLowerCase().includes(g.toLowerCase()))}
+function isAfrican(n){return AFRICAN_AL.some(a=>n&&n.toLowerCase().includes(a.toLowerCase()))}
+
 async function doSearch(){
-  const oriSky=document.getElementById('ori-sky').value||document.getElementById('ori-input').value.trim().toUpperCase().slice(0,3);
+  const oriSky=document.getElementById('ori-sky').value;
   const oriEnt=document.getElementById('ori-ent').value;
-  const dstSky=document.getElementById('dst-sky').value||document.getElementById('dst-input').value.trim().toUpperCase().slice(0,3);
+  const dstSky=document.getElementById('dst-sky').value;
   const dstEnt=document.getElementById('dst-ent').value;
   const dep=document.getElementById('dep').value;
   const pax=document.getElementById('pax').value;
 
-  if(!oriSky||oriSky.length<3) return showErr('Choisissez un aéroport de départ dans la liste déroulante.');
-  if(!dstSky||dstSky.length<3) return showErr('Choisissez un aéroport de destination dans la liste déroulante.');
+  if(!oriSky) return showErr('Sélectionnez un aéroport de départ dans la liste.');
+  if(!dstSky) return showErr('Sélectionnez un aéroport de destination dans la liste.');
   if(!dep) return showErr('Choisissez une date de départ.');
 
   setLoad(true);hideErr();
@@ -421,13 +546,13 @@ async function doSearch(){
 
   try{
     const[y,m,d]=dep.split('-');
-    const url=`https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlights?originSkyId=${oriSky}&destinationSkyId=${dstSky}&originEntityId=${oriEnt}&destinationEntityId=${dstEnt}&date=${d}/${m}/${y}&adults=${pax}&currency=EUR&countryCode=FR&market=fr-FR`;
+    const url=`https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlights?originSkyId=${oriSky}&destinationSkyId=${dstSky}&originEntityId=${oriEnt}&destinationEntityId=${dstEnt}&date=${y}-${m}-${d}&adults=${pax}&currency=EUR&countryCode=FR&market=fr-FR`;
     const res=await fetch(url,{headers:{'x-rapidapi-host':'sky-scrapper.p.rapidapi.com','x-rapidapi-key':KEY}});
     if(!res.ok) throw new Error(res.status);
     handle(await res.json());
   }catch(e){
     setLoad(false);
-    showErr('La recherche ne fonctionne pas en local. Mettez le site en ligne sur GitHub Pages pour activer les vols réels.');
+    showErr('Erreur lors de la recherche. Vérifiez votre connexion. Si vous êtes en local (fichier), mettez le site en ligne pour que l\'API fonctionne.');
   }
 }
 
@@ -478,8 +603,7 @@ function setSort(k,btn){
 
 function render(){
   const sorted=[...flights].sort((a,b)=>{
-    const ta=a.isGabon?0:a.isAfrican?1:2;
-    const tb=b.isGabon?0:b.isAfrican?1:2;
+    const ta=a.isGabon?0:a.isAfrican?1:2,tb=b.isGabon?0:b.isAfrican?1:2;
     if(ta!==tb) return ta-tb;
     if(sortKey==='price') return a.price-b.price;
     if(sortKey==='duration') return(a.dur||9999)-(b.dur||9999);
@@ -487,31 +611,24 @@ function render(){
   });
   const minP=Math.min(...sorted.map(f=>f.price));
   let lastTier=-1;
-
   document.getElementById('list').innerHTML=sorted.map((f,i)=>{
     const best=f.price===minP&&i===sorted.findIndex(x=>x.price===minP);
     const tier=f.isGabon?0:f.isAfrican?1:2;
     let lbl='';
     if(tier!==lastTier){
       lastTier=tier;
-      if(tier===0) lbl=`<div class="section-label">🇬🇦 FlyGabon & compagnies gabonaises</div>`;
-      else if(tier===1) lbl=`<div class="section-label">🌍 Compagnies africaines</div>`;
-      else lbl=`<div class="section-label">✈ Autres compagnies</div>`;
+      if(tier===0) lbl='<div class="section-label">🇬🇦 FlyGabon & compagnies gabonaises</div>';
+      else if(tier===1) lbl='<div class="section-label">🌍 Compagnies africaines</div>';
+      else lbl='<div class="section-label">✈ Autres compagnies</div>';
     }
     const init=f.airline.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const logoClass=f.isGabon?'gab':f.isAfrican?'afr':'';
-    const cardClass=f.isGabon?'gabon':f.isAfrican?'african':best?'best-price':'';
-    const topBadge=f.isGabon
-      ?'<div class="best-tag gabon-tag">🇬🇦 Compagnie gabonaise</div>'
-      :best?'<div class="best-tag">✦ Meilleur prix</div>':'';
-
-    return `${lbl}<div class="fcard ${cardClass}">
-      <div class="al-wrap">
-        <div class="al-logo ${logoClass}">${init}</div>
-        <div class="al-name">${f.airline}</div>
-      </div>
-      <div class="fcard-route">
-        ${topBadge}
+    const lc=f.isGabon?'gab':f.isAfrican?'afr':'';
+    const cc=f.isGabon?'gabon':f.isAfrican?'african':best?'best-price':'';
+    const badge=f.isGabon?'<div class="best-tag gabon-tag">🇬🇦 Compagnie gabonaise</div>':best?'<div class="best-tag">✦ Meilleur prix</div>':'';
+    return `${lbl}<div class="fcard ${cc}">
+      <div class="al-wrap"><div class="al-logo ${lc}">${init}</div><div class="al-name">${f.airline}</div></div>
+      <div>
+        ${badge}
         <div class="route-row">
           <div><div class="iata">${f.ori}</div><div class="iata-sub">${fmt(f.dep)}</div></div>
           <div class="rmid">
