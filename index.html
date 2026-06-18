@@ -512,36 +512,57 @@ function handle(data,ori,dst,dep,pax,ret){
   showRedirects(ori,dst,dep,pax,ret);
 }
 
-async function openBookingLinks(ignav_id,pax,airline,price,currency){
+async function openBookingLinks(ignav_id,pax,airline,price,currency,ori,dst,dep){
   const modal=document.getElementById('modal');
-  document.getElementById('modal-sub').textContent=airline+' — '+price+' '+currency;
-  document.getElementById('modal-links').innerHTML='<div style="text-align:center;padding:20px;color:var(--muted)">Chargement…</div>';
+  document.getElementById('modal-sub').textContent=airline+' — '+Math.round(price*0.92)+' €';
+  const[y,m,d]=dep.split('-');
+  const depFmt=`${y}${m}${d}`;
+  const links=[
+    {icon:'🌐',name:'Google Flights',sub:'Gratuit & fiable',
+      url:`https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`},
+    {icon:'🔵',name:'Skyscanner',sub:'Meilleurs prix',
+      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depFmt}/`},
+    {icon:'🟠',name:'Kayak',sub:'Comparer',
+      url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}/${pax}adults`},
+    {icon:'🟣',name:'Kiwi.com',sub:'Combos créatifs',
+      url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}`},
+    {icon:'🇬🇦',name:'FlyGabon',sub:'Compagnie gabonaise',url:'https://www.flygabon.com'},
+    {icon:'🟡',name:'Booking.com',sub:'Vols + hôtels',
+      url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
+  ];
+  document.getElementById('modal-links').innerHTML=links.map(l=>`
+    <a href="${l.url}" target="_blank" rel="noopener" class="modal-link">
+      <span style="font-size:1.2rem">${l.icon}</span>
+      <div><div class="modal-link-name">${l.name}</div><div class="modal-link-sub">${l.sub}</div></div>
+    </a>`).join('');
   modal.classList.add('open');
-  try{
-    const data=await ignavPost('/fares/booking-links',{ignav_id,adults:pax});
-    const links=(data?.booking_options||[]).flatMap(o=>o.links||[]);
-    if(links.length){
-      document.getElementById('modal-links').innerHTML=links.slice(0,6).map(l=>`
-        <a href="${l.url}" target="_blank" rel="noopener" class="modal-link">
-          <span style="font-size:1.2rem">✈</span>
-          <div><div class="modal-link-name">${l.provider||'Réserver'}</div><div class="modal-link-sub">${l.fare_amount?l.fare_amount+' '+l.fare_currency:'Voir le prix'}</div></div>
-        </a>`).join('');
-    }else{
-      document.getElementById('modal-links').innerHTML='<p style="text-align:center;color:var(--muted);font-size:.85rem;padding:10px">Liens non disponibles. Utilisez Google Flights ci-dessous.</p>';
-    }
-  }catch{document.getElementById('modal-links').innerHTML='<p style="color:var(--muted);font-size:.85rem;text-align:center;padding:10px">Erreur de chargement.</p>';}
 }
 function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
 
+function googleFlightsUrl(ori,dst,dep,pax,ret){
+  // Format correct Google Flights 2026
+  const base='https://www.google.com/travel/flights/search';
+  const trip=ret?'2':'1';
+  let q=`?hl=fr&curr=EUR&tfs=CBwQAhojEgoyMDI2LSR7dep.replace(/-/g,'')}agIIAA`;
+  // Fallback simple et fiable
+  return `https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`;
+}
+
 function buildRedirects(ori,dst,dep,pax,ret){
   const[y,m,d]=dep.split('-');
+  const depFmt=`${y}${m}${d}`;
   return[
-    {name:'Google Flights',icon:'🌐',sub:'Gratuit & fiable',url:`https://www.google.com/flights?hl=fr#flt=${ori}.${dst}.${dep}${ret?`*${dst}.${ori}.${ret}`:''}${pax>1?`;pas=${pax}`:''}`},
-    {name:'Skyscanner',icon:'🔵',sub:'Meilleurs prix mondiaux',url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${y}${m}${d}/`},
-    {name:'Kayak',icon:'🟠',sub:'Comparer facilement',url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
-    {name:'Kiwi.com',icon:'🟣',sub:'Combos créatifs',url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${ret?'/'+ret:''}`},
+    {name:'Google Flights',icon:'🌐',sub:'Gratuit & fiable',
+      url:`https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`},
+    {name:'Skyscanner',icon:'🔵',sub:'Meilleurs prix mondiaux',
+      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depFmt}/`},
+    {name:'Kayak',icon:'🟠',sub:'Comparer facilement',
+      url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
+    {name:'Kiwi.com',icon:'🟣',sub:'Combos créatifs',
+      url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${ret?'/'+ret:''}`},
     {name:'FlyGabon',icon:'🇬🇦',sub:'Compagnie gabonaise',url:'https://www.flygabon.com'},
-    {name:'Booking.com',icon:'🟡',sub:'Vols + hôtels',url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
+    {name:'Booking.com',icon:'🟡',sub:'Vols + hôtels',
+      url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
   ];
 }
 function showRedirects(ori,dst,dep,pax,ret){
@@ -615,8 +636,8 @@ function render(){
           <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
         </div>
         <div class="book-btns">
-          ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.currency}')">Voir les liens →</button>`:''}
-          <a href="https://www.google.com/flights?hl=fr#flt=${f.ori}.${f.dst}.${document.getElementById('dep').value}" target="_blank" class="book-more">Google Flights</a>
+          ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.currency}','${f.ori}','${f.dst}','${document.getElementById('dep').value}')">Voir les liens →</button>`:''}
+          <a href="https://www.skyscanner.fr/transport/vols/${f.ori.toLowerCase()}/${f.dst.toLowerCase()}/${document.getElementById('dep').value.replace(/-/g,'')}/" target="_blank" class="book-more">Skyscanner</a>
         </div>
       </div>
     </div>`;
