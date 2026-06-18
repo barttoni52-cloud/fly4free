@@ -425,10 +425,11 @@ function acKey(e,id){
 function hlAc(id,items){items.forEach((el,i)=>el.classList.toggle('focused',i===acIdx[id]));if(acIdx[id]>=0)items[acIdx[id]].scrollIntoView({block:'nearest'});}
 document.addEventListener('click',e=>{['ori','dst'].forEach(id=>{const w=document.getElementById(id+'-wrap');if(w&&!w.contains(e.target))document.getElementById(id+'-drop').classList.remove('open');});});
 
+const WORKER='https://withered-king-df88.barttoni52.workers.dev';
 async function ignavPost(path,body){
-  const r=await fetch('https://ignav.com/api'+path,{
+  const r=await fetch(WORKER+path,{
     method:'POST',
-    headers:{'Content-Type':'application/json','X-Api-Key':IGNAV_KEY},
+    headers:{'Content-Type':'application/json'},
     body:JSON.stringify(body)
   });
   const data=await r.json();
