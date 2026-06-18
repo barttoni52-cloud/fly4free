@@ -99,18 +99,22 @@ main{max-width:960px;margin:0 auto;padding:40px 24px 60px}
 .best-tag{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:100px;margin-bottom:8px}
 .gabon-tag{background:var(--sun);color:var(--white)}
 .route-row{display:flex;align-items:center;gap:10px}
-.iata{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;letter-spacing:-1px;line-height:1;color:var(--text)}
-.iata-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
+.iata{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;line-height:1;color:var(--text)}
+.iata-sub{font-size:.65rem;color:var(--muted);margin-top:2px}
 .rmid{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.dur-txt{font-size:.72rem;color:var(--muted)}
+.dur-txt{font-size:.7rem;color:var(--muted)}
 .rline{width:100%;display:flex;align-items:center;gap:3px}
 .rl{flex:1;height:1px;background:#CBD5E0}
-.pill{font-size:.67rem;font-weight:600;padding:2px 9px;border-radius:100px}
+.pill{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:100px}
 .pill.direct{background:var(--green-light);color:var(--green)}
 .pill.stops{background:#FFF3E0;color:#E65100}
-.fcard-price{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:130px}
-.pp{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.price-big{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--forest);line-height:1;letter-spacing:-1px}
+.fcard-price{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:140px}
+.pp{font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.price-big{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--forest);line-height:1;letter-spacing:-0.5px}
+.price-xaf{font-size:.72rem;color:var(--muted);margin-top:1px}
+.speed-badge{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:6px}
+.speed-badge.fastest{background:#E8F0FF;color:#2B4ECC}
+.speed-badge.cheapest{background:var(--green-light);color:var(--green)}
 .book-btns{display:flex;flex-direction:column;gap:6px}
 .book-main{display:block;background:var(--sun);color:var(--white);text-decoration:none;padding:9px 16px;border-radius:8px;font-size:.8rem;font-weight:700;font-family:'Syne',sans-serif;transition:all .2s;text-align:center;border:none;cursor:pointer;width:100%;box-shadow:0 3px 10px rgba(245,166,35,.35)}
 .book-main:hover{background:var(--sun2)}
@@ -552,6 +556,8 @@ function fmt(dt){if(!dt)return'—';const d=new Date(dt);if(isNaN(d))return dt.s
 function dur(m){if(!m)return'';return`${Math.floor(m/60)}h${m%60?m%60+'min':''}`}
 function setSort(k,btn){sortKey=k;document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));btn.classList.add('on');render();}
 
+function toXAF(eur){return Math.round(eur*655.957).toLocaleString('fr-FR');}
+
 function render(){
   const pax=parseInt(document.getElementById('pax').value);
   const sorted=[...flights].sort((a,b)=>{
@@ -562,9 +568,11 @@ function render(){
     return a.stops-b.stops;
   });
   const minP=Math.min(...sorted.map(f=>f.price));
+  const minDur=Math.min(...sorted.filter(f=>f.dur>0).map(f=>f.dur));
   let lastTier=-1;
   document.getElementById('list').innerHTML=sorted.map((f,i)=>{
-    const best=f.price===minP&&i===sorted.findIndex(x=>x.price===minP);
+    const isCheapest=f.price===minP&&i===sorted.findIndex(x=>x.price===minP);
+    const isFastest=f.dur>0&&f.dur===minDur&&i===sorted.findIndex(x=>x.dur===minDur);
     const tier=f.isGabon?0:f.isAfrican?1:2;
     let lbl='';
     if(tier!==lastTier){lastTier=tier;
@@ -574,26 +582,37 @@ function render(){
     }
     const init=f.airline.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const lc=f.isGabon?'gab':f.isAfrican?'afr':'';
-    const cc=f.isGabon?'gabon':f.isAfrican?'african':best?'best':'';
-    const badge=f.isGabon?'<div class="best-tag gabon-tag">🇬🇦 Compagnie gabonaise</div>':best?'<div class="best-tag">✦ Meilleur prix</div>':'';
+    const cc=f.isGabon?'gabon':f.isAfrican?'african':isCheapest?'best':'';
+    const topBadge=f.isGabon?'<div class="best-tag gabon-tag">🇬🇦 Compagnie gabonaise</div>':isCheapest?'<div class="best-tag">✦ Meilleur prix</div>':'';
+    const speedBadges=[
+      isCheapest?'<span class="speed-badge cheapest">💰 Moins cher</span>':'',
+      isFastest?'<span class="speed-badge fastest">⚡ Plus rapide</span>':''
+    ].filter(Boolean).join('');
+    const eurPrice=f.currency==='EUR'?f.price:Math.round(f.price/655.957);
+    const xafPrice=f.currency==='XAF'?f.price:Math.round(f.price*655.957);
     const iid=f.ignav_id.replace(/'/g,"\\'");
     const al=f.airline.replace(/'/g,"\\'");
     return `${lbl}<div class="fcard ${cc}">
       <div class="al-wrap"><div class="al-logo ${lc}">${init}</div><div class="al-name">${f.airline}</div></div>
       <div>
-        ${badge}
+        ${topBadge}
+        ${speedBadges?`<div style="margin-bottom:6px">${speedBadges}</div>`:''}
         <div class="route-row">
           <div><div class="iata">${f.ori}</div><div class="iata-sub">${fmt(f.depTime)}</div></div>
           <div class="rmid">
             ${f.dur?`<div class="dur-txt">${dur(f.dur)}</div>`:''}
-            <div class="rline"><div class="rl"></div><span>✈</span><div class="rl"></div></div>
+            <div class="rline"><div class="rl"></div><span style="font-size:.8rem">✈</span><div class="rl"></div></div>
             <span class="pill ${f.stops===0?'direct':'stops'}">${f.stops===0?'Direct':f.stops+' escale'+(f.stops>1?'s':'')}</span>
           </div>
           <div style="text-align:right"><div class="iata">${f.dst}</div><div class="iata-sub">${fmt(f.arrTime)}</div></div>
         </div>
       </div>
       <div class="fcard-price">
-        <div><div class="pp">par personne</div><div class="price-big">${f.price} ${f.currency}</div></div>
+        <div>
+          <div class="pp">par personne</div>
+          <div class="price-big">${eurPrice} €</div>
+          <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
+        </div>
         <div class="book-btns">
           ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.currency}')">Voir les liens →</button>`:''}
           <a href="https://www.google.com/flights?hl=fr#flt=${f.ori}.${f.dst}.${document.getElementById('dep').value}" target="_blank" class="book-more">Google Flights</a>
