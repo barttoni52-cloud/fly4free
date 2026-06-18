@@ -343,6 +343,27 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
 <script>
 const IGNAV_KEY='ignav_CWcIEsZo8xMg2PrfVFP1puWH-Phc2z5X';
 const IGNAV_BASE='https://ignav.com/api';
+// Proxy pour contourner CORS sur GitHub Pages
+async function ignavPost(path,body){
+  // Essai direct d'abord (fonctionne si CORS autorisé)
+  try{
+    const r=await fetch(`${IGNAV_BASE}${path}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Api-Key':IGNAV_KEY},
+      body:JSON.stringify(body)
+    });
+    if(r.ok) return await r.json();
+  }catch{}
+  // Fallback via proxy CORS
+  const proxyUrl=`https://api.allorigins.win/raw?url=${encodeURIComponent('https://ignav.com/api'+path)}`;
+  const r2=await fetch(proxyUrl,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Api-Key':IGNAV_KEY},
+    body:JSON.stringify(body)
+  });
+  if(!r2.ok) throw new Error(r2.status);
+  return await r2.json();
+}
 let flights=[],sortKey='price',isReturn=false;
 let acTimers={ori:null,dst:null},acIdx={ori:-1,dst:-1};
 let msgTimer=null,msgIdx=0;
@@ -484,16 +505,10 @@ async function doSearch(){
   msgTimer=setInterval(()=>{msgIdx=(msgIdx+1)%MSGS.length;document.getElementById('lmsg').textContent=MSGS[msgIdx];},2200);
 
   try{
-    const endpoint=isReturn?`${IGNAV_BASE}/fares/round-trip`:`${IGNAV_BASE}/fares/one-way`;
+    const path=isReturn?'/fares/round-trip':'/fares/one-way';
     const body={origin:ori,destination:dst,departure_date:dep,adults:pax,cabin_class:'economy'};
     if(isReturn&&ret) body.return_date=ret;
-
-    const res=await fetch(endpoint,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-Api-Key':IGNAV_KEY}
-    });
-    if(!res.ok) throw new Error(res.status);
-    const data=await res.json();
+    const data=await ignavPost(path,body);
     handle(data,ori,dst,dep,pax,isReturn?ret:'');
   }catch(e){
     setLoad(false);
@@ -548,12 +563,7 @@ async function openBookingLinks(ignav_id,pax,airline,price,currency){
   modal.classList.add('open');
 
   try{
-    const res=await fetch(`${IGNAV_BASE}/fares/booking-links`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-Api-Key':IGNAV_KEY},
-      body:JSON.stringify({ignav_id,adults:pax})
-    });
-    const data=await res.json();
+    const data=await ignavPost('/fares/booking-links',{ignav_id,adults:pax});
     const links=data?.booking_links||[];
     if(links.length){
       document.getElementById('modal-links').innerHTML=links.slice(0,6).map(l=>`
