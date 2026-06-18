@@ -499,7 +499,7 @@ function handle(data,ori,dst,dep,pax,ret){
       isGabon:isGab(airline),isAfrican:isAfr(airline),ignav_id:it?.ignav_id||''};
   }).filter(Boolean);
   if(flights.length){
-    const prices=flights.map(f=>Math.round(f.price*0.92));
+    const prices=flights.map(f=>toEUR(f.price));
     document.getElementById('s-min').textContent=Math.min(...prices)+' €';
     document.getElementById('s-avg').textContent=Math.round(prices.reduce((a,b)=>a+b,0)/prices.length)+' €';
     document.getElementById('s-cnt').textContent=flights.length;
@@ -512,16 +512,16 @@ function handle(data,ori,dst,dep,pax,ret){
   showRedirects(ori,dst,dep,pax,ret);
 }
 
-async function openBookingLinks(ignav_id,pax,airline,price,currency,ori,dst,dep){
+async function openBookingLinks(ignav_id,pax,airline,price,ori,dst,dep,ret){
   const modal=document.getElementById('modal');
-  document.getElementById('modal-sub').textContent=airline+' — '+Math.round(price*0.92)+' €';
+  document.getElementById('modal-sub').textContent=airline+' — '+toEUR(price)+' € / '+toXAF(price)+' XAF';
   const[y,m,d]=dep.split('-');
-  const depFmt=`${y}${m}${d}`;
+  const depSky=`${y}${m}${d}`;
   const links=[
     {icon:'🌐',name:'Google Flights',sub:'Gratuit & fiable',
-      url:`https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`},
-    {icon:'🔵',name:'Skyscanner',sub:'Meilleurs prix',
-      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depFmt}/`},
+      url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}`},
+    {icon:'🔵',name:'Skyscanner',sub:'Résultats directs',
+      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/?adults=${pax}`},
     {icon:'🟠',name:'Kayak',sub:'Comparer',
       url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}/${pax}adults`},
     {icon:'🟣',name:'Kiwi.com',sub:'Combos créatifs',
@@ -539,23 +539,27 @@ async function openBookingLinks(ignav_id,pax,airline,price,currency,ori,dst,dep)
 }
 function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
 
-function googleFlightsUrl(ori,dst,dep,pax,ret){
-  // Format correct Google Flights 2026
-  const base='https://www.google.com/travel/flights/search';
-  const trip=ret?'2':'1';
-  let q=`?hl=fr&curr=EUR&tfs=CBwQAhojEgoyMDI2LSR7dep.replace(/-/g,'')}agIIAA`;
-  // Fallback simple et fiable
-  return `https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`;
+// 1 USD = 606 XAF (taux marché juin 2026)
+const USD_TO_XAF=606;
+function toXAF(usd){return Math.round(usd*USD_TO_XAF).toLocaleString('fr-FR');}
+function toEUR(usd){return Math.round(usd*0.923);}
+
+function gFlightsUrl(ori,dst,dep,pax,ret){
+  // Format Google Flights qui fonctionne
+  let url=`https://www.google.com/travel/flights?hl=fr&curr=EUR`;
+  url+=`&q=Vols+${ori}+${dst}`;
+  return url;
 }
 
 function buildRedirects(ori,dst,dep,pax,ret){
   const[y,m,d]=dep.split('-');
-  const depFmt=`${y}${m}${d}`;
+  const depSky=`${y}${m}${d}`;
+  const retSky=ret?ret.replace(/-/g,''):'';
   return[
     {name:'Google Flights',icon:'🌐',sub:'Gratuit & fiable',
-      url:`https://www.google.com/travel/flights?hl=fr&q=vols+${ori}+${dst}+${dep}`},
+      url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}`},
     {name:'Skyscanner',icon:'🔵',sub:'Meilleurs prix mondiaux',
-      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depFmt}/`},
+      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/${retSky?retSky+'/?adults='+pax:'?adults='+pax}`},
     {name:'Kayak',icon:'🟠',sub:'Comparer facilement',
       url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
     {name:'Kiwi.com',icon:'🟣',sub:'Combos créatifs',
@@ -609,9 +613,8 @@ function render(){
       isCheapest?'<span class="speed-badge cheapest">💰 Moins cher</span>':'',
       isFastest?'<span class="speed-badge fastest">⚡ Plus rapide</span>':''
     ].filter(Boolean).join('');
-    // API retourne en USD — conversion EUR (0.92) et XAF (655.957 * 0.92)
-    const eurPrice=Math.round(f.price*0.92);
-    const xafPrice=Math.round(f.price*0.92*655.957);
+    const eurPrice=toEUR(f.price);
+    const xafPrice=toXAF(f.price);
     const iid=f.ignav_id.replace(/'/g,"\\'");
     const al=f.airline.replace(/'/g,"\\'");
     return `${lbl}<div class="fcard ${cc}">
@@ -636,8 +639,8 @@ function render(){
           <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
         </div>
         <div class="book-btns">
-          ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.currency}','${f.ori}','${f.dst}','${document.getElementById('dep').value}')">Voir les liens →</button>`:''}
-          <a href="https://www.skyscanner.fr/transport/vols/${f.ori.toLowerCase()}/${f.dst.toLowerCase()}/${document.getElementById('dep').value.replace(/-/g,'')}/" target="_blank" class="book-more">Skyscanner</a>
+          ${f.ignav_id?`<button class="book-main" onclick="openBookingLinks('${iid}',${pax},'${al}',${f.price},'${f.ori}','${f.dst}',document.getElementById('dep').value,'')">Voir les liens →</button>`:''}
+          <a href="https://www.skyscanner.fr/transport/vols/${f.ori.toLowerCase()}/${f.dst.toLowerCase()}/${document.getElementById('dep').value.replace(/-/g,'')}/?adults=${pax}" target="_blank" class="book-more">Skyscanner →</a>
         </div>
       </div>
     </div>`;
