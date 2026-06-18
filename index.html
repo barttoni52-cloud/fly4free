@@ -588,8 +588,22 @@ function render(){
       isCheapest?'<span class="speed-badge cheapest">💰 Moins cher</span>':'',
       isFastest?'<span class="speed-badge fastest">⚡ Plus rapide</span>':''
     ].filter(Boolean).join('');
-    const eurPrice=f.currency==='EUR'?f.price:Math.round(f.price/655.957);
-    const xafPrice=f.currency==='XAF'?f.price:Math.round(f.price*655.957);
+    // Prix brut tel que retourné par l'API
+    const rawPrice=f.price;
+    const rawCurrency=f.currency;
+    // Conversion : si EUR, afficher tel quel. Si USD, convertir. Sinon afficher brut.
+    let eurPrice, xafPrice;
+    if(rawCurrency==='EUR'){
+      eurPrice=rawPrice;
+      xafPrice=Math.round(rawPrice*655.957);
+    } else if(rawCurrency==='USD'){
+      eurPrice=Math.round(rawPrice*0.92);
+      xafPrice=Math.round(rawPrice*0.92*655.957);
+    } else {
+      // Devise inconnue — afficher brut
+      eurPrice=rawPrice;
+      xafPrice=Math.round(rawPrice*655.957);
+    }
     const iid=f.ignav_id.replace(/'/g,"\\'");
     const al=f.airline.replace(/'/g,"\\'");
     return `${lbl}<div class="fcard ${cc}">
@@ -610,7 +624,7 @@ function render(){
       <div class="fcard-price">
         <div>
           <div class="pp">par personne</div>
-          <div class="price-big">${eurPrice} €</div>
+          <div class="price-big">${eurPrice} ${rawCurrency}</div>
           <div class="price-xaf">${xafPrice.toLocaleString('fr-FR')} XAF</div>
         </div>
         <div class="book-btns">
