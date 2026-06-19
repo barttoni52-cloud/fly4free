@@ -285,14 +285,18 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
     <div class="loading-dots"><span>•</span><span>•</span><span>•</span></div>
   </div>
   <div class="stats-row" id="stats">
-    <div class="stat-card"><div class="stat-val" id="s-min">—</div><div class="stat-lbl">Prix le plus bas</div></div>
+    <div class="stat-card" id="stat-min-card" style="cursor:pointer" title="Voir sur Skyscanner">
+      <div class="stat-val" id="s-min">—</div>
+      <div class="stat-lbl">Prix le plus bas</div>
+      <div style="font-size:.65rem;color:var(--sun2);margin-top:4px">→ Voir sur Skyscanner</div>
+    </div>
     <div class="stat-card"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Prix moyen</div></div>
     <div class="stat-card"><div class="stat-val" id="s-cnt">—</div><div class="stat-lbl">Vols trouvés</div></div>
   </div>
 
   <!-- Avertissement prix -->
-  <div id="price-notice" style="display:none;background:#FFF8E8;border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:10px 16px;font-size:.78rem;color:#8A6800;margin-bottom:16px;display:none;align-items:center;gap:8px">
-    ⚠️ <span>Les prix affichés sont <strong>indicatifs</strong> (source Ignav). Cliquez sur un site pour voir le <strong>prix réel et réserver</strong>. Les prix varient selon les sites et la disponibilité.</span>
+  <div id="price-notice" style="display:none;background:#E8F5EE;border:1px solid rgba(46,125,90,.3);border-radius:10px;padding:10px 16px;font-size:.78rem;color:#1A5C3F;margin-bottom:16px;display:none;align-items:center;gap:8px">
+    ✅ <span><strong>Prix réels en temps réel</strong>, vérifiés par compagnie. Cliquez sur un site pour réserver directement.</span>
   </div>
 
   <div class="sort-row" id="sort-row">
@@ -372,6 +376,12 @@ fetchRates();
 
 function toEUR(usd){return Math.round(usd*eurRate);}
 function toXAF(usd){return Math.round(usd*xafRate);}
+function parseDuration(iso){
+  if(!iso) return 0;
+  const m=iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+  if(!m) return 0;
+  return (parseInt(m[1]||0)*60)+parseInt(m[2]||0);
+}
 
 const today=new Date().toISOString().split('T')[0];
 document.getElementById('dep').min=today;
@@ -459,10 +469,14 @@ function acKey(e,id){
 function hlAc(id,items){items.forEach((el,i)=>el.classList.toggle('focused',i===acIdx[id]));if(acIdx[id]>=0)items[acIdx[id]].scrollIntoView({block:'nearest'});}
 document.addEventListener('click',e=>{['ori','dst'].forEach(id=>{const w=document.getElementById(id+'-wrap');if(w&&!w.contains(e.target))document.getElementById(id+'-drop').classList.remove('open');});});
 
-async function ignavPost(path,body){
-  const r=await fetch(WORKER+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+async function duffelSearch(slices,passengers){
+  const r=await fetch(WORKER+'/search',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({slices,passengers,cabin_class:'economy'})
+  });
   const data=await r.json();
-  if(!r.ok) throw new Error(data?.error?.message||'HTTP '+r.status);
+  if(!r.ok) throw new Error(data?.errors?.[0]?.message||data?.error?.message||'HTTP '+r.status);
   return data;
 }
 
@@ -474,16 +488,26 @@ function isAfr(n){return n&&AFRICAN_AL.some(a=>n.toLowerCase().includes(a))}
 function buildSites(ori,dst,dep,pax,ret){
   const[y,m,d]=dep.split('-');
   const depSky=`${y}${m}${d}`;
+  const retSky=ret?ret.replace(/-/g,''):'';
+  const isRT=!!ret;
   return[
-    {icon:'🔵',name:'Skyscanner',url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/?adults=${pax}`},
-    {icon:'🌐',name:'Google Flights',url:`https://www.google.com/travel/flights?hl=fr&curr=EUR&q=Vols+${ori}+${dst}+${dep}`},
-    {icon:'🟠',name:'Kayak',url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${ret?'/'+ret:''}/${pax}adults`},
-    {icon:'🟣',name:'Kiwi.com',url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${ret?'/'+ret:''}`},
-    {icon:'🔴',name:'Expedia',url:`https://www.expedia.fr/Flights-Search?trip=oneway&leg1=from:${ori},to:${dst},departure:${dep}&travelers=adults:${pax}`},
-    {icon:'🟤',name:'Momondo',url:`https://www.momondo.fr/flight-search/${ori}-${dst}/${dep}${ret?'/'+ret:''}?adults=${pax}`},
-    {icon:'📊',name:'ITA Matrix',url:`https://matrix.itasoftware.com/search#search/f=${ori}&t=${dst}&d=${dep}&r=${ret||''}&p=${pax}`},
+    {icon:'🔵',name:'Skyscanner',
+      url:`https://www.skyscanner.fr/transport/vols/${ori.toLowerCase()}/${dst.toLowerCase()}/${depSky}/${isRT?retSky+'/':''}?adults=${pax}&currency=EUR`},
+    {icon:'🌐',name:'Google Flights',
+      url:`https://www.google.com/flights?hl=fr#flt=${ori}.${dst}.${depSky}${isRT?'*'+dst+'.'+ori+'.'+retSky:''};c:EUR;e:1;sd:1;t:f${pax>1?';px:'+pax:''}`},
+    {icon:'🟠',name:'Kayak',
+      url:`https://www.kayak.fr/flights/${ori}-${dst}/${dep}${isRT?'/'+ret:''}/${pax}adults?sort=price_a`},
+    {icon:'🟣',name:'Kiwi.com',
+      url:`https://www.kiwi.com/fr/search/results/${ori}/${dst}/${dep}${isRT?'/'+ret:''}?adults=${pax}&currency=EUR`},
+    {icon:'🔴',name:'Expedia',
+      url:`https://www.expedia.fr/Flights-Search?trip=${isRT?'roundtrip':'oneway'}&leg1=from:${ori},to:${dst},departure:${dep}TANYT${isRT?'&leg2=from:'+dst+',to:'+ori+',departure:'+ret+'TANYT':''}&travelers=adults:${pax}&options=cabinclass:economy`},
+    {icon:'🟤',name:'Momondo',
+      url:`https://www.momondo.fr/flight-search/${ori}-${dst}/${dep}${isRT?'/'+ret:''}?adults=${pax}&currency=EUR`},
+    {icon:'📊',name:'ITA Matrix',
+      url:`https://matrix.itasoftware.com/search#search/f=${ori}&t=${dst}&d=${dep}${isRT?'&r='+ret:''}&p=${pax}&sc=e`},
     {icon:'🇬🇦',name:'FlyGabon',url:'https://www.flygabon.com'},
-    {icon:'🟡',name:'Booking',url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}&adults=${pax}`},
+    {icon:'🟡',name:'Booking',
+      url:`https://www.booking.com/flights/search.html?from=${ori}&to=${dst}&depart=${dep}${isRT?'&return='+ret:''}&adults=${pax}&currency=EUR`},
   ];
 }
 
@@ -511,10 +535,10 @@ async function doSearch(){
   msgTimer=setInterval(()=>{msgIdx=(msgIdx+1)%MSGS.length;document.getElementById('lmsg').textContent=MSGS[msgIdx];},2400);
 
   try{
-    const path=isReturn?'/fares/round-trip':'/fares/one-way';
-    const body={origin:ori,destination:dst,departure_date:dep,adults:pax,cabin_class:'economy'};
-    if(isReturn&&ret) body.return_date=ret;
-    const data=await ignavPost(path,body);
+    const slices=[{origin:ori,destination:dst,departure_date:dep}];
+    if(isReturn&&ret) slices.push({origin:dst,destination:ori,departure_date:ret});
+    const passengers=Array.from({length:pax},()=>({type:'adult'}));
+    const data=await duffelSearch(slices,passengers);
     handle(data,ori,dst,dep,pax,ret);
   }catch(e){
     setLoad(false);
@@ -526,35 +550,42 @@ async function doSearch(){
 
 function handle(data,ori,dst,dep,pax,ret){
   setLoad(false);
-  const items=data?.itineraries||[];
-  flights=items.slice(0,20).map(it=>{
-    const price=it?.price?.amount;
-    if(!price) return null;
-    const ob=it?.outbound||{};
-    const segs=ob?.segments||[];
-    const airline=ob?.carrier||segs[0]?.operating_carrier_name||'Compagnie aérienne';
+  const offers=data?.data?.offers||[];
+  flights=offers.slice(0,20).map(offer=>{
+    const priceEUR=parseFloat(offer?.total_amount);
+    if(!priceEUR) return null;
+    const currency=offer?.total_currency||'EUR';
+    const slice=offer?.slices?.[0]||{};
+    const segs=slice?.segments||[];
+    const airline=segs[0]?.marketing_carrier?.name||offer?.owner?.name||'Compagnie aérienne';
+    const durISO=slice?.duration||'';
+    const durMin=parseDuration(durISO);
     return{
-      priceUSD:price,
-      ori:segs[0]?.departure_airport||ori,
-      dst:segs[segs.length-1]?.arrival_airport||dst,
-      depTime:segs[0]?.departure_time_local||'',
-      arrTime:segs[segs.length-1]?.arrival_time_local||'',
-      dur:ob?.duration_minutes||0,
+      priceEUR:currency==='EUR'?priceEUR:Math.round(priceEUR*eurRate),
+      currency,
+      ori:segs[0]?.origin?.iata_code||ori,
+      dst:segs[segs.length-1]?.destination?.iata_code||dst,
+      depTime:segs[0]?.departing_at||'',
+      arrTime:segs[segs.length-1]?.arriving_at||'',
+      dur:durMin,
       stops:Math.max(0,segs.length-1),
       airline,
       isGabon:isGab(airline),isAfrican:isAfr(airline),
-      ignav_id:it?.ignav_id||''
+      offer_id:offer?.id||''
     };
   }).filter(Boolean);
 
   if(flights.length){
-    const eurPrices=flights.map(f=>toEUR(f.priceUSD));
-    document.getElementById('s-min').textContent=Math.min(...eurPrices)+' €';
-    document.getElementById('s-avg').textContent=Math.round(eurPrices.reduce((a,b)=>a+b,0)/eurPrices.length)+' €';
+    const eurPrices=flights.map(f=>f.priceEUR);
+    const minEur=Math.min(...eurPrices);
+    const avgEur=Math.round(eurPrices.reduce((a,b)=>a+b,0)/eurPrices.length);
+    document.getElementById('s-min').textContent=minEur+' €';
+    document.getElementById('s-avg').textContent=avgEur+' €';
     document.getElementById('s-cnt').textContent=flights.length;
     document.getElementById('stats').style.display='grid';
     document.getElementById('sort-row').style.display='flex';
     document.getElementById('price-notice').style.display='flex';
+    document.getElementById('stat-min-card').onclick=()=>window.open(sites[0].url,'_blank');
     render(ori,dst,dep,pax,ret);
   }else{
     document.getElementById('empty').style.display='block';
@@ -576,19 +607,19 @@ function render(ori,dst,dep,pax,ret){
   const sorted=[...flights].sort((a,b)=>{
     const ta=a.isGabon?0:a.isAfrican?1:2,tb=b.isGabon?0:b.isAfrican?1:2;
     if(ta!==tb)return ta-tb;
-    if(sortKey==='price')return a.priceUSD-b.priceUSD;
+    if(sortKey==='price')return a.priceEUR-b.priceEUR;
     if(sortKey==='duration')return(a.dur||9999)-(b.dur||9999);
     return a.stops-b.stops;
   });
 
-  const minP=Math.min(...sorted.map(f=>f.priceUSD));
+  const minP=Math.min(...sorted.map(f=>f.priceEUR));
   const minDur=Math.min(...sorted.filter(f=>f.dur>0).map(f=>f.dur));
   let lastTier=-1;
   const[y,m,d]=dep.split('-');
   const depSky=`${y}${m}${d}`;
 
   document.getElementById('list').innerHTML=sorted.map((f,i)=>{
-    const isCheapest=f.priceUSD===minP&&i===sorted.findIndex(x=>x.priceUSD===minP);
+    const isCheapest=f.priceEUR===minP&&i===sorted.findIndex(x=>x.priceEUR===minP);
     const isFastest=f.dur>0&&f.dur===minDur&&i===sorted.findIndex(x=>x.dur===minDur);
     const tier=f.isGabon?0:f.isAfrican?1:2;
     let lbl='';
@@ -600,8 +631,8 @@ function render(ori,dst,dep,pax,ret){
     const init=f.airline.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const lc=f.isGabon?'gab':f.isAfrican?'afr':'';
     const cc=f.isGabon?'gabon':f.isAfrican?'african':isCheapest?'best':'';
-    const eurP=toEUR(f.priceUSD);
-    const xafP=toXAF(f.priceUSD).toLocaleString('fr-FR');
+    const eurP=f.priceEUR;
+    const xafP=Math.round(f.priceEUR*655.957).toLocaleString('fr-FR');
 
     const badges=[
       f.isGabon?'<span class="badge airline-gab">🇬🇦 Compagnie gabonaise</span>':'',
@@ -639,15 +670,14 @@ function render(ori,dst,dep,pax,ret){
         </div>
         <div class="fcard-right">
           <div class="price-block">
-            <div class="price-label">prix indicatif</div>
-            <div class="price-eur">~${eurP} €</div>
-            <div class="price-xaf">~${xafP} XAF</div>
-            <div class="price-usd">${f.priceUSD} USD source</div>
+            <div class="price-label">prix réel · par personne</div>
+            <div class="price-eur">${eurP} €</div>
+            <div class="price-xaf">${xafP} XAF</div>
           </div>
         </div>
       </div>
       <div class="sites-block">
-        <div class="sites-title">Réserver sur — cliquez pour voir le prix réel</div>
+        <div class="sites-title">Réserver maintenant sur :</div>
         <div class="sites-grid">${sitesHtml}</div>
       </div>
     </div>`;
