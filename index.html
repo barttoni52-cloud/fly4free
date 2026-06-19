@@ -290,13 +290,19 @@ footer strong{color:var(--sun);font-family:'Syne',sans-serif;font-weight:700}
       <div class="stat-lbl">Prix le plus bas</div>
       <div style="font-size:.65rem;color:var(--sun2);margin-top:4px">→ Voir sur Skyscanner</div>
     </div>
-    <div class="stat-card"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Prix moyen</div></div>
-    <div class="stat-card"><div class="stat-val" id="s-cnt">—</div><div class="stat-lbl">Vols trouvés</div></div>
+    <div class="stat-card" id="stat-avg-card">
+      <div class="stat-val" id="s-avg">—</div>
+      <div class="stat-lbl">Prix moyen</div>
+    </div>
+    <div class="stat-card" id="stat-cnt-card">
+      <div class="stat-val" id="s-cnt">—</div>
+      <div class="stat-lbl">Vols trouvés</div>
+    </div>
   </div>
 
   <!-- Avertissement prix -->
-  <div id="price-notice" style="display:none;background:#E8F5EE;border:1px solid rgba(46,125,90,.3);border-radius:10px;padding:10px 16px;font-size:.78rem;color:#1A5C3F;margin-bottom:16px;display:none;align-items:center;gap:8px">
-    ✅ <span><strong>Prix réels en temps réel</strong>, vérifiés par compagnie. Cliquez sur un site pour réserver directement.</span>
+  <div id="price-notice" style="display:none;background:#FFF8E8;border:1px solid rgba(245,166,35,.35);border-radius:10px;padding:10px 16px;font-size:.78rem;color:#8A6800;margin-bottom:16px;display:none;align-items:center;gap:8px">
+    ⚠️ <span><strong>Mode test activé</strong> — compagnies et prix affichés sont simulés par Duffel pour les tests. Les vrais prix nécessitent l'activation du mode production.</span>
   </div>
 
   <div class="sort-row" id="sort-row">
@@ -558,8 +564,14 @@ function handle(data,ori,dst,dep,pax,ret){
     const slice=offer?.slices?.[0]||{};
     const segs=slice?.segments||[];
     const airline=segs[0]?.marketing_carrier?.name||offer?.owner?.name||'Compagnie aérienne';
-    const durISO=slice?.duration||'';
-    const durMin=parseDuration(durISO);
+    const durISO=slice?.duration||segs[0]?.duration||'';
+    let durMin=parseDuration(durISO);
+    // Fallback: calculer depuis les heures si pas de durée ISO
+    if(!durMin&&segs[0]?.departing_at&&segs[segs.length-1]?.arriving_at){
+      const dep1=new Date(segs[0].departing_at);
+      const arr1=new Date(segs[segs.length-1].arriving_at);
+      if(!isNaN(dep1)&&!isNaN(arr1)) durMin=Math.round((arr1-dep1)/60000);
+    }
     return{
       priceEUR:currency==='EUR'?priceEUR:Math.round(priceEUR*eurRate),
       currency,
